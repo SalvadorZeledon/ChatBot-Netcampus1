@@ -1,0 +1,997 @@
+<div id="nc-bot" class="nc" style="font-family: system-ui,Arial;">
+  <div class="nc-card">
+    <strong class="nc-header">🤖 Chatbot de Prueba - Unidad TAC</strong>
+
+    <div class="nc-toolbar">
+      <button id="nc-theme" class="nc-theme-btn" type="button" aria-pressed="false" title="Cambiar tema">
+        🌙 Modo oscuro
+      </button>
+    </div>
+
+
+    <div id="nc-msgs" class="nc-msgs"></div>
+    <div id="nc-quick" class="nc-quick">
+      <button class="nc-chip" data-q="¿Puedes comentarme en qué consiste el nuevo proyecto de la Unidad TAC?">Proyecto TAC</button>
+      <button class="nc-chip" data-q="¿Cuándo inicia y cuándo termina el ciclo 02-2025?">Calendario</button>
+      <button class="nc-chip" data-q="¿Cuáles son las políticas de evaluación?">Políticas</button>
+     <button class="nc-chip" data-q="¿Tienes un video para matriculación?">Video matriculación</button>
+    </div>
+
+    <div id="nc-form" class="nc-form">
+      <input id="nc-input" class="nc-input" type="text" placeholder="Escribe tu pregunta…" required>
+      <button id="nc-send" class="nc-send" type="button">Enviar</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  :root{
+    --nc-primary:#1f57b6;  /* azul institucional */
+    --nc-accent:#19b36b;   /* verde acento */
+    --nc-danger:#d9534f;   /* rojo para botones de video */
+    --nc-bg:#f6f9ff;
+    --nc-text:#111;
+  }
+
+  .nc{color:var(--nc-text)}
+  .nc-card{
+    border:1px solid #e6e8f0; border-radius:16px; background:#fff;
+    box-shadow:0 14px 38px rgba(0,0,0,.06); max-width:820px; margin:8px auto;
+  }
+  .nc-header{
+    display:block; padding:14px 16px; border-radius:16px 16px 0 0; color:#fff;
+    background:linear-gradient(90deg,var(--nc-primary), var(--nc-accent));
+    font-weight:800; letter-spacing:.2px;
+  }
+  .nc-msgs{padding:16px; max-height:420px; overflow:auto; background:var(--nc-bg)}
+  .nc-bubble{
+    margin:10px 0; max-width:82%; padding:10px 12px; border-radius:14px; line-height:1.45;
+    box-shadow:0 3px 10px rgba(0,0,0,.05); border:1px solid #e8ecf6; word-wrap:break-word;
+  }
+  .nc-bubble.nc-bot{background:#fff}
+  .nc-bubble.nc-me {background:#e8f2ff; border-color:#cfe1ff; margin-left:auto}
+
+  .nc-form{display:flex; gap:10px; padding:14px 16px; border-top:1px solid #eef2ff; background:#fff; border-radius:0 0 16px 16px}
+  .nc-input{flex:1; padding:12px 14px; border:1px solid #d8dce8; border-radius:12px; background:#fbfbfe}
+  .nc-send{padding:12px 16px; border-radius:12px; border:1px solid var(--nc-primary); background:var(--nc-primary); color:#fff; cursor:pointer; font-weight:700}
+  .nc-send:hover{filter:brightness(.96)}
+
+  /* Botones tipo enlace dentro de respuestas del bot */
+  #nc-msgs a{
+    display:inline-block; padding:8px 12px; border-radius:10px; text-decoration:none; font-weight:700;
+    border:1px solid var(--nc-primary); background:#eef1ff; color:var(--nc-primary); margin-top:6px;
+  }
+  #nc-msgs a.primary{background:var(--nc-primary); color:#fff}
+  #nc-msgs a.success{background:var(--nc-accent); color:#fff; border-color:var(--nc-accent)}
+  #nc-msgs a.danger{background:var(--nc-danger); color:#fff; border-color:var(--nc-danger)}
+
+  .nc-quick{display:flex;flex-wrap:wrap;gap:10px;padding:10px 16px;border-top:1px solid #eef2ff;background:#fbfdff}
+  .nc-chip{
+    background:#eef4ff;border:1px solid #dbe6ff;color:var(--nc-primary);
+    border-radius:999px;padding:8px 12px;cursor:pointer;font-size:12px;font-weight:600
+  }
+  .nc-chip:hover{background:#e2ecff}
+
+</style>
+
+<style>
+  .nc-typing{display:inline-flex;gap:4px;align-items:center}
+  .nc-dot-typing{
+    width:6px;height:6px;border-radius:50%;background:#9aa7c7;
+    opacity:.6;animation:nc-bounce 1s infinite ease-in-out;
+  }
+  .nc-dot-typing:nth-child(2){animation-delay:.15s}
+  .nc-dot-typing:nth-child(3){animation-delay:.3s}
+
+  @keyframes nc-bounce{
+    0%,80%,100%{transform:translateY(0);opacity:.6}
+    40%{transform:translateY(-4px);opacity:1}
+  }
+</style>
+
+<style>
+  .nc-suggest{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .nc-suggest .nc-chip{
+    background:#eef4ff;border:1px solid #dbe6ff;color:var(--nc-primary);
+    border-radius:999px;padding:6px 10px;cursor:pointer;font-size:12px;font-weight:600
+  }
+  .nc-suggest .nc-chip:hover{background:#e2ecff}
+</style>
+
+<style>
+  .nc-media{margin-top:10px}
+  .nc-media img{
+    max-width:100%;
+    height:auto;
+    display:block;
+    border-radius:12px;
+    border:1px solid #e6e8f0;
+    box-shadow:0 6px 16px rgba(0,0,0,.06);
+  }
+</style>
+
+<style>
+  /* Barra superior con botón de tema */
+  .nc-toolbar{display:flex;justify-content:flex-end;gap:8px;padding:8px 12px;background:#fff;border-bottom:1px solid #eef2ff}
+  .nc-theme-btn{
+    padding:8px 12px;border-radius:10px;border:1px solid var(--nc-primary);
+    background:var(--nc-primary);color:#fff;font-weight:700;cursor:pointer
+  }
+  .nc-theme-btn:hover{filter:brightness(.96)}
+
+  /* ---- Tema oscuro mejor contraste ---- */
+.nc.nc-dark {
+  color: #e8ecf7; /* Texto general claro */
+}
+
+.nc.nc-dark .nc-card {
+  background: #14182a;
+  border-color: #2a2e3f;
+  box-shadow: none;
+}
+
+.nc.nc-dark .nc-header {
+  background: linear-gradient(90deg, #1b3e8e, #146a43);
+  color: #ffffff;
+}
+
+.nc.nc-dark .nc-toolbar {
+  background: #14182a;
+  border-bottom-color: #2a2e3f;
+}
+
+.nc.nc-dark .nc-msgs {
+  background: #0f1220;
+}
+
+.nc.nc-dark .nc-bubble.nc-bot {
+  background: #1b2138;
+  border-color: #2a3353;
+  color: #f5f7ff; /* texto claro */
+}
+
+.nc.nc-dark .nc-bubble.nc-me {
+  background: #21407a;
+  border-color: #21407a;
+  color: #ffffff;
+}
+
+.nc.nc-dark .nc-input {
+  background: #0f1220;
+  color: #f5f7ff;
+  border-color: #2a3353;
+}
+
+.nc.nc-dark .nc-send {
+  background: #4f8bff;
+  border-color: #4f8bff;
+  color: #ffffff;
+}
+
+.nc.nc-dark #nc-msgs a {
+  background: #3b4770;
+  border-color: #3b4770;
+  color: #ffffff;
+}
+
+.nc.nc-dark #nc-msgs a.success {
+  background: #58d39a;
+  border-color: #58d39a;
+  color: #0b0e1a;
+}
+
+.nc.nc-dark #nc-msgs a.danger {
+  background: #ff6b6b;
+  border-color: #ff6b6b;
+  color: #0b0e1a;
+}
+
+.nc.nc-dark .nc-quick {
+  background: #13182a;
+  border-top-color: #2a2e3f;
+}
+
+.nc.nc-dark .nc-chip {
+  background: #1b2138;
+  border-color: #2a3353;
+  color: #ffffff;
+}
+
+.nc.nc-dark .nc-chip:hover {
+  background: #232b49;
+}
+
+.nc.nc-dark .nc-suggest .nc-chip {
+  background: #1b2138;
+  border-color: #2a3353;
+  color: #ffffff;
+}
+
+/* Dots “escribiendo…” visibles */
+.nc.nc-dark .nc-dot-typing {
+  background: #cfe0ff;
+  opacity: 0.9;
+}
+
+
+  /* Dots de “escribiendo…” más visibles en oscuro */
+  .nc.nc-dark .nc-dot-typing{background:#cfe0ff;opacity:.8}
+</style>
+
+<style>
+.respuesta-bloque {
+  background: var(--bg-bloque);
+  color: var(--texto-bloque);
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--borde-bloque);
+}
+
+.boton-video a {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #d9534f;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Variables para modo claro */
+body.light-mode {
+  --bg-input-area: #ffffff;
+  --bg-input: #f9f9f9;
+  --border-input: #ccc;
+  --text-input: #000;
+  --bg-button: #4a90e2;
+  --text-button: #fff;
+}
+
+/* Variables para modo oscuro */
+body.dark-mode {
+  --bg-input-area: #121212;
+  --bg-input: #1e1e1e;
+  --border-input: #444;
+  --text-input: #fff;
+  --bg-button: #2979ff;
+  --text-button: #fff;
+}
+
+/* Contenedor del input y botón */
+#nc-form {
+  background: var(--bg-input-area);
+  padding: 10px;
+  display: flex;
+  gap: 5px;
+}
+
+/* Input */
+#nc-input {
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
+  color: var(--text-input);
+  flex: 1;
+  padding: 6px;
+  border-radius: 6px;
+}
+
+/* Botón de enviar */
+#nc-send {
+  background: var(--bg-button);
+  color: var(--text-button);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+</style>
+
+<style >
+.mensaje-inicial {
+  background: var(--bg-msg);
+  padding: 6px;
+  border-radius: 6px;
+  margin: 4px 0;
+  border: 1px solid var(--border-msg);
+}
+
+.cursor-escribiendo {
+  border-right: 1px solid var(--cursor-color);
+}
+
+body.light-mode {
+  --bg-msg: #f1f1f1;
+  --border-msg: #ccc;
+  --cursor-color: #333;
+}
+
+body.dark-mode {
+  --bg-msg: #1f1f1f;
+  --border-msg: #444;
+  --cursor-color: #fff;
+}
+</style>
+<p>
+  <script>
+    (function() {
+      // --- util ---
+      const norm = s => (s || "")
+        .toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[¿?¡!.,:;()"]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      // URL de los videos
+      const VIDEO_MATRICULACION = "https://www.youtube.com/watch?v=XXXXXXXX";
+
+      const VIDEO_PAGINA = "https://www.youtube.com/watch?v=YYYYYYYY"; // ← cambia por tu enlace
+
+      const VIDEO_TAREA = "https://www.youtube.com/watch?v=AAAAAAAA"; // ← pon tu enlace real
+      
+      const VIDEO_FORO = "https://www.youtube.com/watch?v=BBBBBBBB"; // ← reemplaza con tu enlace real
+
+      const VIDEO_PERFIL = "https://www.youtube.com/watch?v=BBBBBBBB";
+
+      // Imagen opcional para respuestas (súbela a Moodle y pega el URL público)
+      const IMG_CALENDARIO = "https://scontent.fsal2-2.fna.fbcdn.net/v/t39.30808-6/484553841_9387352094687408_6800608587075683597_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=w4laWYBlHcEQ7kNvwF4HyrB&_nc_oc=Adm2MqO6s8jhnkX06a8gDTY_cvQaumGmd7jfEFY3ZtMydrcFUj-cOQ2X9hq_RJo55vs0pGzwhAI3QBgueSTS-Yss&_nc_zt=23&_nc_ht=scontent.fsal2-2.fna&_nc_gid=MsiTGgaZaTuUwqOpHQIdAA&oh=00_AfUBHRD8F1QfV2Cpd-3IdwY0RNoGb-aL9S5BknwstCpbdg&oe=68A0B739 "; // deja "" si no quieres imagen
+
+
+
+      // Sugerencias contextuales según el intent respondido
+      const SUGGESTIONS = {
+        video_matriculacion: [
+          { label: "Ver calendario", q: "¿Cuándo inicia y cuándo termina el ciclo 02-2025?" },
+          { label: "Crear Página",   q: "¿Cómo crear una Página en Moodle 5?" },
+          { label: "Contacto TAC",   q: "¿Cómo puedo contactar a la Unidad?" }
+        ],
+        proyecto: [
+          { label: "Beneficios", q: "¿Cuáles son los beneficios para estudiantes y docentes?" },
+          { label: "Objetivo",   q: "¿Cuál es el objetivo principal?" },
+          { label: "Documentos", q: "¿Puedes mostrarme los documentos que tienes a disposición?" }
+        ],
+        calendario_academico: [
+          { label: "1ros parciales", q: "¿Cuándo son los primeros parciales?" },
+          { label: "2dos parciales", q: "¿Cuándo son los segundos parciales?" },
+          { label: "Finales",        q: "¿Cuándo son los exámenes finales?" }
+        ],
+        crear_pagina: [
+          { label: "Crear Tarea", q: "¿Cómo crear una Tarea en Moodle 5?" },
+          { label: "Crear Foro",  q: "¿Cómo crear un Foro en Moodle 5?" },
+          { label: "Perfil Docente", q: "¿Cómo configurar mi perfil como docente?" }
+        ],
+        crear_tarea: [
+          { label: "Crear Foro",  q: "¿Cómo crear un Foro en Moodle 5?" },
+          { label: "Crear Página",q: "¿Cómo crear una Página en Moodle 5?" }
+        ],
+        crear_foro: [
+          { label: "Crear Tarea", q: "¿Cómo crear una Tarea en Moodle 5?" },
+          { label: "Crear Página",q: "¿Cómo crear una Página en Moodle 5?" }
+        ],
+        configurar_perfil_docente: [
+          { label: "Crear Página", q: "¿Cómo crear una Página en Moodle 5?" },
+          { label: "Contacto TAC", q: "¿Cómo puedo contactar a la Unidad?" }
+        ]
+      };
+
+
+      // Imágenes por intención (solo se inyectan si hay URL)
+      const MEDIA = {
+        calendario_academico: { img: IMG_CALENDARIO, alt: "Calendario académico 02-2025" }
+        // Ejemplos futuros:
+        // crear_tarea: { img: IMG_TAREA, alt: "Flujo para crear Tarea" },
+        // crear_foro:  { img: IMG_FORO,  alt: "Tipos de foro en Moodle" }
+      };
+
+
+      // --- intenciones ---
+      const INTENTS = [{
+        // --- PARA CLAVE DE MATRICULACION ---
+        id: "video_matriculacion",
+        patterns: [
+          /matriculaci(o|on|ón)/,
+          /(clave|contrasena|contraseña).*(matricul)/,
+          /ayuda.*(matricul|clave)/,
+          /video.*matricul/,
+          /tutorial.*matricul/
+        ],
+       answer: `
+          <div class="respuesta-bloque">
+            <b>Configurar clave de matriculación en Moodle 5:</b>
+            <ol>
+              <li>Entra al curso y abre <b>Ajustes del curso</b> (engrane superior).</li>
+              <li>Ve a <b>Usuarios → Métodos de matriculación</b>.</li>
+              <li>Activa <b>Auto-matriculación (Estudiante)</b>.</li>
+              <li>Haz clic en el engrane, escribe la clave y guarda.</li>
+            </ol>
+            <div class="boton-video">
+              <a href="${VIDEO_MATRICULACION}" target="_blank" rel="noopener">
+                🎥 Ver video tutorial
+              </a>
+            </div>
+          </div>
+`
+    },
+          // --- PARA CREAR UNA PAGINA ---
+          {
+            id: "crear_pagina",
+            patterns: [
+              /crear.*pagina/,
+              /configurar.*pagina/,
+              /recurso.*pagina/,
+              /como.*(crear|configurar).*pagina/,
+              /pagina.*moodle/,
+              /\bpage\b/
+            ],
+            answer: `
+              <div class="respuesta-bloque">
+                <b>Crear una Página en Moodle 5:</b>
+                <ol style="margin:6px 0 0 18px;">
+                  <li>Activa <b>Edición</b> en el curso.</li>
+                  <li>Haz clic en <b>Añadir una actividad o un recurso</b> → <b>Página</b>.</li>
+                  <li>Completa <b>Nombre</b> y el <b>Contenido</b> (puedes usar <i>Código fuente</i> para HTML).</li>
+                  <li>(Opcional) Ajusta <b>Restricciones</b> y <b>Finalización</b>.</li>
+                  <li>Pulsa <b>Guardar y mostrar</b>.</li>
+                </ol>
+                 <div class="boton-video">
+                  <a href="${VIDEO_PAGINA}" target="_blank" rel="noopener"
+                    style="display:inline-block;padding:8px 12px;border-radius:8px;background:#1f57b6;color:#fff;text-decoration:none;font-weight:600;">
+                    🎥 Ver video: crear Página
+                  </a>
+                </div>
+              </div>
+            `
+          },
+          // --- PARA CREAR UNA TAREA---
+          {
+            id: "crear_tarea",
+            patterns: [
+              /crear.*tarea/,
+              /configurar.*tarea/,
+              /actividad.*tarea/,
+              /como.*(crear|configurar).*tarea/,
+              /tarea.*moodle/,
+              /assignment/
+            ],
+            answer: `
+              <div class="respuesta-bloque">
+                <b>Crear una Tarea en Moodle 5:</b>
+                <ol style="margin:6px 0 0 18px;">
+                  <li>Activa <b>Edición</b> en el curso.</li>
+                  <li>Ve a <b>Añadir una actividad o un recurso</b> → <b>Tarea</b>.</li>
+                  <li>Completa <b>Nombre</b> y <b>Descripción</b>.</li>
+                  <li>En <b>Disponibilidad</b>: define apertura, entrega y fecha límite.</li>
+                  <li>En <b>Tipos de entrega</b>: archivos, texto en línea o ambos.</li>
+                  <li>Ajusta <b>Calificación</b> y demás opciones si hace falta.</li>
+                  <li>Pulsa <b>Guardar y mostrar</b>.</li>
+                </ol>
+                <div class="boton-video">
+                  <a href="${VIDEO_TAREA}" target="_blank" rel="noopener"
+                    style="display:inline-block;padding:8px 12px;border-radius:8px;background:#1f57b6;color:#fff;text-decoration:none;font-weight:600;">
+                    🎥 Ver video: crear Tarea
+                  </a>
+                </div>
+              </div>
+            `
+          },
+          // --- PARA CREAR UN FORO---
+          {
+            id: "crear_foro",
+            patterns: [
+              /crear.*foro/,
+              /configurar.*foro/,
+              /foro.*moodle/,
+              /como.*(crear|configurar).*foro/,
+              /forum/
+            ],
+            answer: `
+              <div class="respuesta-bloque">
+                <b>Crear un Foro en Moodle 5:</b>
+                <ol style="margin:6px 0 0 18px;">
+                  <li>Activa <b>Edición</b> en el curso.</li>
+                  <li>Ve a <b>Añadir una actividad o un recurso</b> → <b>Foro</b>.</li>
+                  <li>Completa <b>Nombre</b> y <b>Descripción</b>.</li>
+                  <li>Elige <b>Tipo de foro</b> (estándar, P&amp;R, etc.).</li>
+                  <li>(Opcional) Ajusta <b>Suscripción</b> y <b>Calificación</b>.</li>
+                  <li>Pulsa <b>Guardar y mostrar</b>.</li>
+                </ol>
+               <div class="boton-video">
+                  <a href="${VIDEO_FORO}" target="_blank" rel="noopener"
+                    style="display:inline-block;padding:8px 12px;border-radius:8px;background:#1f57b6;color:#fff;text-decoration:none;font-weight:600;">
+                    🎥 Ver video: crear Foro
+                  </a>
+                </div>
+              </div>
+            `
+          },
+          // --- PARA Configurar el perfil---
+          {
+            id: "configurar_perfil_docente",
+            patterns: [
+              /configurar mi perfil/,
+              /editar perfil profesor/,
+              /actualizar perfil/,
+              /cambiar foto perfil/,
+              /perfil catedratico/,
+              /perfil docente/
+            ],
+            answer: `
+              <div class="respuesta-bloque">
+                <b>Configurar tu perfil como docente en Moodle 5:</b>
+                <ol style="margin:6px 0 0 18px;">
+                  <li>Inicia sesión en Moodle.</li>
+                  <li>Haz clic en tu nombre o foto (arriba a la derecha).</li>
+                  <li>Selecciona <b>Perfil</b> y luego <b>Editar perfil</b>.</li>
+                  <li>Actualiza tu información y sube una foto si deseas.</li>
+                  <li>Haz clic en <b>Actualizar información personal</b> para guardar.</li>
+                </ol>
+                <div class="boton-video">
+                  <a href="${VIDEO_PERFIL}" target="_blank" rel="noopener"
+                    style="display:inline-block;padding:8px 12px;border-radius:8px;background:#007bff;color:#fff;text-decoration:none;font-weight:600;">
+                    Ver video tutorial
+                  </a>
+                </div>
+              </div>
+            `
+          },
+
+          {
+          id: "presentacion",
+          patterns: [/presentar(te)?/, /presentacion/, /hola/],
+          answer: `
+        <b>¡Hola!</b> Soy el <b>Chatbot TAC</b>, un prototipo desarrollado por la Unidad TAC
+        para mostrar cómo la <b>inteligencia artificial</b> puede apoyar a docentes y estudiantes.
+        Estoy aquí para responder preguntas sobre el proyecto, la Unidad TAC y darte una idea
+        de cómo funcionaría un asistente virtual integrado en todos los cursos.
+      `
+        },
+        {
+          id: "bienvenida",
+          patterns: [/bienvenid(a|o)?/, /dar la bienvenida/],
+          answer: `
+        <b>¡Bienvenido/a al entorno de prueba del Chatbot TAC!</b><br>
+        Aquí puedes interactuar conmigo para conocer más sobre:
+        <ul>
+          <li>El <b>proyecto de chatbots</b> en la universidad.</li>
+          <li>La <b>Unidad TAC</b> y sus funciones.</li>
+          <li>Información académica y de soporte.</li>
+        </ul>
+        Esta es una demostración; en la versión final estaré integrado al curso
+        con acceso a tus recursos y actividades.
+      `
+        },
+        {
+          id: "proyecto",
+          patterns: [/proyecto/, /en que consiste/,
+            /consiste el nuevo proyecto/
+          ],
+          answer: `
+        El <b>proyecto de chatbots educativos</b> de la Unidad TAC busca incorporar asistentes virtuales en los cursos para:
+        <ul>
+          <li>Brindar <b>respuestas inmediatas</b> a dudas frecuentes.</li>
+          <li>Apoyar a los docentes en <b>gestión y comunicación</b>.</li>
+          <li>Mejorar la <b>experiencia de aprendizaje</b> de los estudiantes.</li>
+        </ul>
+        Esta prueba es solo una muestra de lo que se puede lograr.
+      `
+        },
+        {
+          id: "objetivo",
+          patterns: [/objetivo(s)?/, /meta principal/],
+          answer: `
+        El objetivo principal es que <b>cada curso</b> cuente con un asistente virtual
+        disponible <b>24/7</b> que pueda responder preguntas, dar recordatorios
+        y facilitar la navegación por la plataforma.
+      `
+        },
+        {
+          id: "beneficios",
+          patterns: [/beneficio(s)?/, /ventaja(s)?/],
+          answer: `
+        <b>Beneficios esperados:</b>
+        <ul>
+          <li>Ahorro de tiempo para docentes y estudiantes.</li>
+          <li>Atención inmediata en cualquier momento.</li>
+          <li>Información consistente y actualizada.</li>
+        </ul>
+      `
+        },
+        {
+          id: "unidad_tac",
+          patterns: [/unidad tac/, /que es la unidad tac/,
+            /tecnologias del aprendizaje/
+          ],
+          answer: `
+        La <b>Unidad de Tecnologías del Aprendizaje y el Conocimiento (TAC)</b> impulsa la
+        integración de herramientas digitales en la docencia, brindando soporte, capacitación
+        y asesoría en innovación educativa.
+      `
+        },
+        {
+          id: "funcion_tac",
+          patterns: [/funcion de la unidad/, /rol(es)? tac/,
+            /que hace la unidad tac/
+          ],
+          answer: `
+        <b>Funciones principales de la Unidad TAC:</b>
+        <ul>
+          <li>Capacitación docente en uso de tecnología educativa.</li>
+          <li>Soporte técnico sobre plataformas.</li>
+          <li>Asesoría en diseño de cursos virtuales.</li>
+        </ul>
+      `
+        },
+        {
+          id: "historia_tac",
+          patterns: [/historia tac/, /cuando se creo/,
+            /desde cuando existe/
+          ],
+          answer: `
+        La Unidad TAC fue creada para modernizar la enseñanza universitaria mediante
+        la adopción de tecnologías. Desde su fundación ha liderado iniciativas de
+        innovación y formación digital.
+      `
+        },
+        {
+          id: "ubicacion_tac",
+          patterns: [/como puedo llegar/, /donde (estan|se encuentra)/],
+          answer: `
+        <b>Ubicación:</b> Edificio Central, piso 3, oficina 305.
+      `
+        },
+        {
+          id: "contacto_tac",
+          patterns: [/contacto/,/contactar/, /contactar a la unidad/,/correo/, /telefono/, /comunicarme/],
+          answer: `
+        <b>Contacto Unidad TAC:</b><br>
+        📧 tac@universidad.edu<br>
+        📞 (+504) 1234-5678<br>
+        Horario: lunes a viernes, 8:00–17:00.
+      `
+        },
+        {
+          id: "servicios_tac",
+          patterns: [/servicio(s)?/, /ofrece la unidad tac/, /que brindan/],
+          answer: `
+        <b>Servicios de la Unidad TAC:</b>
+        <ul>
+          <li>Capacitación en plataformas virtuales.</li>
+          <li>Soporte técnico y resolución de problemas.</li>
+          <li>Asesoría en diseño instruccional y multimedia.</li>
+        </ul>
+      `
+        },
+        {
+          id: "futuro",
+          patterns: [/futuro/, /vision/],
+          answer: `
+        En el futuro se busca integrar chatbots en todos los cursos,
+        conectados a datos reales y con capacidad de dar asistencia
+        personalizada a cada estudiante y docente.
+      `
+        },
+        {
+          id: "documentos",
+          patterns: [/documento(s)?/, /manual/, /guia/],
+          answer: `
+        📄 <a href="#" target="_blank">Documento del Proyecto</a><br>
+        📄 <a href="#" target="_blank">Manual de Uso del Chatbot</a>
+      `
+        },
+        {
+          id: "calendario_academico",
+          patterns: [/calendario/, /fechas importantes/, /cuando inicia/,
+            /cuando termina/
+          ],
+          answer: `
+        <b>Calendario académico ciclo 02-2025:</b>
+        <ul>
+          <li>📅 Inicio de clases: <b>14 de julio</b></li>
+          <li>📅 Finalización: <b>29 de noviembre</b></li>
+          <li>📝 Primeros parciales: <b>1 al 6 de septiembre</b></li>
+          <li>📝 Segundos parciales: <b>20 al 25 de octubre</b></li>
+          <li>📚 Exámenes finales: <b>2 al 8 de diciembre</b></li>
+        </ul>
+      `
+        },
+        {
+          id: "calendario_academico2",
+          patterns: [/primeros parciales/],
+          answer: `
+        <b>Calendario académico ciclo 02-2025:</b>
+        <ul>
+          <li>📝 Primeros parciales: <b>1 al 6 de septiembre</b></li>
+        </ul>
+      `
+        },
+
+        {
+          id: "calendario_academico3",
+          patterns: [/segundos parciales/],
+          answer: `
+        <b>Calendario académico ciclo 02-2025:</b>
+        <ul>
+          <li>📝 Segundos parciales: <b>20 al 25 de octubre</b></li>
+        </ul>
+      `
+        },
+        {
+          id: "calendario_academico4",
+          patterns: [/examenes finales/],
+          answer: `
+        <b>Calendario académico ciclo 02-2025:</b>
+        <ul>
+          <li>📚 Exámenes finales: <b>2 al 8 de diciembre</b></li>
+        </ul>
+      `
+        },
+        {
+          id: "politicas_evaluacion",
+          patterns: [/politica(s)?/, /evaluacion/, /reglas/],
+          answer: `
+        <b>Políticas de evaluación:</b>
+        <ol>
+          <li>Solo los alumnos matriculados correctamente en NetCampus podrán evaluarse.</li>
+          <li>Se requiere al menos un <b>80% de asistencia</b> para tener derecho a examen final.</li>
+        </ol>
+      `
+        },
+        {
+          id: "soporte_plataformas",
+          patterns: [/soporte plataforma/, /ayuda plataforma/,
+            /problema en netcampus/
+          ],
+          answer: `
+        <b>Soporte de plataformas:</b>
+        <ol>
+          <li>Verifica tu conexión a internet y actualiza la página.</li>
+          <li>Consulta la sección de <b>Preguntas Frecuentes</b> en NetCampus.</li>
+          <li>Si el problema persiste, envía un correo a <i>soporte@universidad.edu</i> con captura de pantalla y descripción.</li>
+          <li>Horario de atención: lunes a viernes, 8:00–17:00.</li>
+        </ol>
+      `
+        },
+        {
+          id: "dato_curioso",
+          patterns: [/dato curioso/, /curiosidad/],
+          answer: `
+        ¿Sabías que el primer curso en línea de la universidad se impartió en <b>2008</b>?
+        Desde entonces, se han desarrollado más de 300 cursos virtuales.
+      `
+        },
+        {
+          id: "frase",
+          patterns: [/frase motivadora/, /motivacion/, /inspir(a|acion)/],
+          answer: `
+        “<i>El aprendizaje es un viaje continuo; cada pregunta es un paso hacia adelante.</i>”
+      `
+        },
+        {
+          id: "chiste",
+          patterns: [/chiste/, /broma/],
+          answer: `
+        — ¿Por qué el estudiante llevó una escalera a clase?<br>
+        — ¡Porque quería llegar al nivel superior! 😄
+      `
+        },
+        {
+          id: "gracias",
+          patterns: [/gracias/],
+          answer: `
+        De nada, consultame cuando quieras! estoy aquí para ayudar 😄<br>
+      `
+        },
+        {
+          id: "despedida",
+          patterns: [/bye/, /adios/, /hasta luego/, /gracias/, /nos vemos/],
+          answer: `
+               ¡Fue un gusto conversar contigo! 😊<br>
+              Recuerda que la <b>Unidad TAC</b> siempre está aquí para apoyarte en tu aprendizaje y en el uso de NetCampus.<br>
+               ¡Te esperamos pronto para seguir innovando juntos! 🚀
+    `
+        }
+      ];
+
+      // --- UI wiring ---
+      const msgs = document.getElementById('nc-msgs');
+      // ⛳️ eliminamos la línea que declaraba 'form' (ya no se usa)
+      const input = document.getElementById('nc-input'); // ← una sola vez
+      const sendBtn = document.getElementById('nc-send');
+
+      const typeMessage = text => {
+        let i = 0;
+        const div = document.createElement('div');
+        div.className = 'mensaje-inicial'; // Usamos clase para aplicar estilos dinámicos
+        msgs.appendChild(div);
+
+        const interval = setInterval(() => {
+          div.innerHTML = text.substring(0, i) +
+            "<span class='cursor-escribiendo'></span>";
+          i++;
+          msgs.scrollTop = msgs.scrollHeight;
+          if (i > text.length) {
+            clearInterval(interval);
+            div.innerHTML = text;
+          }
+        }, 30);
+      };
+      typeMessage("👋 ¡Hola! Soy el Chatbot TAC. Pregúntame sobre el proyecto, la Unidad TAC o el calendario académico.");
+
+
+
+      let typingEl = null;
+
+        function showTyping(){
+          // crea una burbuja de bot con puntos animados
+          const html = `<span class="nc-typing">
+                          <span class="nc-dot-typing"></span>
+                          <span class="nc-dot-typing"></span>
+                          <span class="nc-dot-typing"></span>
+                        </span>`;
+          const el = document.createElement('div');
+          el.className = 'nc-bubble nc-bot';
+          el.innerHTML = html;
+          document.getElementById('nc-msgs').appendChild(el);
+          document.getElementById('nc-msgs').scrollTop = document.getElementById('nc-msgs').scrollHeight;
+          typingEl = el;
+        }
+
+        function hideTyping(){
+          if(typingEl && typingEl.parentNode){
+            typingEl.parentNode.removeChild(typingEl);
+            typingEl = null;
+          }
+        }
+
+
+        // --- Tema claro/oscuro ---
+        const ncRoot  = document.getElementById('nc-bot'); // tiene la clase "nc"
+        const themeBtn= document.getElementById('nc-theme');
+
+        function applyTheme(theme){
+          if (theme === 'dark') {
+            ncRoot.classList.add('nc-dark');
+            themeBtn.textContent = '☀️ Modo claro';
+            themeBtn.setAttribute('aria-pressed','true');
+          } else {
+            ncRoot.classList.remove('nc-dark');
+            themeBtn.textContent = '🌙 Modo oscuro';
+            themeBtn.setAttribute('aria-pressed','false');
+          }
+          localStorage.setItem('ncTheme', theme);
+        }
+
+        // Preferencia inicial: guardada o del sistema
+        const savedTheme = localStorage.getItem('ncTheme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme(savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light'));
+
+        // Toggle al hacer click
+        themeBtn.addEventListener('click', ()=>{
+          const isDark = ncRoot.classList.contains('nc-dark');
+          applyTheme(isDark ? 'light' : 'dark');
+        });
+
+
+
+      const bubble = (html, who) => {
+        const p = document.createElement('div');
+        p.className = 'nc-bubble ' + (who === 'me' ? 'nc-me' : 'nc-bot');
+        p.innerHTML = html;
+        const msgs = document.getElementById('nc-msgs');
+        msgs.appendChild(p);
+        msgs.scrollTop = msgs.scrollHeight;
+        return p; // ← ahora devolvemos el elemento
+      };
+
+
+
+      const matchIntent = text => {
+        const q = norm(text);
+        for (const intent of INTENTS) {
+          if (intent.patterns.some(rx => rx.test(q))) return intent;
+        }
+        return null;
+      };
+
+      function renderSuggestions(intentId, bubbleEl){
+        const items = SUGGESTIONS[intentId];
+        if (!items || !items.length || !bubbleEl) return;
+        const wrap = document.createElement('div');
+        wrap.className = 'nc-suggest';
+        items.forEach(it=>{
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'nc-chip';
+          b.textContent = it.label;
+          b.addEventListener('click', ()=> sendText(it.q));
+          wrap.appendChild(b);
+        });
+        bubbleEl.appendChild(wrap);
+      }
+
+      function renderMedia(intentId, bubbleEl){
+        const m = MEDIA[intentId];
+        if (!m || !m.img) return;
+        const box = document.createElement('div');
+        box.className = 'nc-media';
+        box.innerHTML = `<img src="${m.img}" alt="${m.alt || ''}">`;
+        bubbleEl.appendChild(box);
+      }
+
+
+
+      function handleSend() {
+      const t = input.value.trim();
+      if (!t) return;
+      bubble(t, 'me');
+      input.value = '';
+
+      showTyping();
+      setTimeout(() => {
+        try {
+          const intent = matchIntent(t);
+          hideTyping();
+          if (intent) {
+            const el = bubble(intent.answer, 'bot');     // ← guardamos el nodo
+            renderSuggestions(intent.id, el);  
+            renderMedia(intent.id, el);          
+          } else {
+            bubble("<i>No tengo esa respuesta aún. Prueba con: “proyecto”, “unidad TAC”, “calendario académico” o “soporte plataformas”.</i>", 'bot');
+          }
+        } catch (err) {
+          hideTyping();
+          bubble(`<span style="color:#b00020">⚠️ Error: ${err.message}</span>`, 'bot');
+          console.error(err);
+        }
+}, 500);
+ // puedes subir un poco el delay para que se note el typing
+    }
+
+
+      sendBtn.addEventListener('click', handleSend);
+
+      // Utilidad para enviar texto programáticamente
+        function sendText(t){
+          bubble(t,'me');
+          input.value = '';
+          showTyping();
+          setTimeout(()=>{
+            try{
+              const intent = matchIntent(t);
+              hideTyping();
+              if (intent) {
+                const el = bubble(intent.answer,'bot');
+                renderSuggestions(intent.id, el);
+                renderMedia(intent.id, el);
+              } else {
+                bubble("<i>No tengo esa respuesta aún. Prueba con: “proyecto”, “unidad TAC”, “calendario académico” o “soporte plataformas”.</i>", 'bot');
+              }
+            }catch(err){
+              hideTyping();
+              bubble(`<span style="color:#b00020">⚠️ Error: ${err.message}</span>`,'bot');
+              console.error(err);
+            }
+          }, 500);
+
+        }
+
+
+        // Listeners de chips
+        document.querySelectorAll('.nc-chip').forEach(ch=>{
+          ch.addEventListener('click', ()=>{
+            const q = ch.getAttribute('data-q') || '';
+            if(q) sendText(q);
+          });
+        });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleSend();
+        }
+      });
+    })();
+  </script>
+</p>
