@@ -790,7 +790,831 @@ body.dark-mode {
               Recuerda que la <b>Unidad TAC</b> siempre está aquí para apoyarte en tu aprendizaje y en el uso de NetCampus.<br>
                ¡Te esperamos pronto para seguir innovando juntos! 🚀
     `
-        }
+        },
+        
+        // -- Aquí comienzan las preguntas propuestas por Melvin  ---
+        // ===============================
+        // INTENTS NUEVOS (Docentes)
+        // ===============================
+        // 1) Activar automatriculación en un curso
+      {
+        id: "prof_auto_matriculacion_activar",
+        patterns: [
+          /activar.*auto.*matricul/,
+          /habilitar.*auto.*inscrip/,
+          /inscripci(o|ó)n.*autom(a|á)tica/,
+          /metodos.*inscrip.*auto/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Activar la automatriculación en tu curso:</b>
+            <ol>
+              <li>Entra al curso y abre <b>Participantes</b>.</li>
+              <li>En el menú de <b>Participantes</b>, elige <b>Métodos de inscripción</b>.</li>
+              <li>Localiza <b>Automatriculación (estudiante)</b> y haz clic en el <b>ícono de ojo</b> para activarla.</li>
+              <li>Haz clic en el <b>engrane</b> para configurar: clave de inscripción (opcional), duración de matrícula, límites y mensaje de bienvenida.</li>
+              <li>Guarda los cambios.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 2) Matricular usuarios manualmente
+      {
+        id: "prof_matricular_manual",
+        patterns: [
+          /matricular.*manual/,
+          /inscribir.*manual/,
+          /agregar.*usuario.*curso/,
+          /anadir.*participante/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Matricular usuarios manualmente:</b>
+            <ol>
+              <li>Entra al curso → <b>Participantes</b> → <b>Métodos de inscripción</b>.</li>
+              <li>Verifica que <b>Matrícula manual</b> está <b>activa</b> (ojo abierto).</li>
+              <li>Haz clic en <b>Matricular usuarios</b> y busca a las personas.</li>
+              <li>Asigna el <b>rol</b> (p. ej., Estudiante) y, si quieres, define <b>fecha/duración</b> de matrícula.</li>
+              <li>Confirma con <b>Matricular usuarios seleccionados</b>.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 3) Añadir la descripción del curso (duplicado en doc, consolidado)
+      {
+        id: "prof_descripcion_curso",
+        patterns: [
+          /descripcion.*curso/,
+          /resumen.*curso/,
+          /presentacion.*curso/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Añadir/editar la descripción del curso:</b>
+            <ol>
+              <li>Entra al curso y abre <b>Configuración del curso</b>.</li>
+              <li>En <b>General</b>, edita el campo <b>Descripción</b> con objetivos, contenidos y metodología.</li>
+              <li>(Opcional) Adjunta <b>imágenes/archivos</b> de apoyo.</li>
+              <li>Guarda los cambios.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 4) Entregar tareas (perspectiva estudiante, útil para docentes al dar indicaciones)
+      {
+        id: "alumno_entregar_tarea_20mb",
+        patterns: [
+          /entregar.*tarea/,
+          /subir.*tarea/,
+          /enviar.*tarea/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Cómo entregar una tarea (límite típico 20&nbsp;MB):</b>
+            <ol>
+              <li>Abre la actividad <b>Tarea</b> y lee las <b>instrucciones</b> y <b>fecha límite</b>.</li>
+              <li>Haz clic en <b>Agregar entrega</b>.</li>
+              <li>Adjunta tu archivo (respeta el <b>tamaño máximo</b> indicado).</li>
+              <li>Haz clic en <b>Guardar cambios</b> y, si corresponde, <b>Enviar tarea</b> para confirmar.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 5) Resolver cuestionarios (estudiante)
+      {
+        id: "alumno_resolver_cuestionario",
+        patterns: [
+          /resolver.*cuestionario/,
+          /rendir.*examen.*virtual/,
+          /intentar.*cuestionario/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Cómo resolver un cuestionario:</b>
+            <ol>
+              <li>Abre el <b>cuestionario</b> y revisa <b>apertura</b>, <b>límite de tiempo</b> e <b>intentos</b>.</li>
+              <li>Haz clic en <b>Intentar resolver ahora</b>.</li>
+              <li>Responde cada pregunta (opción múltiple, V/F, ensayo, etc.).</li>
+              <li>Selecciona <b>Finalizar intento</b> y revisa tus respuestas.</li>
+              <li>Confirma con <b>Enviar todo y terminar</b>.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 6) Configurar la calificación del curso (libro de calificaciones)
+      {
+        id: "prof_calificaciones_configurar",
+        patterns: [
+          /configurar.*calificaci(o|ó)n.*curso/,
+          /ajust(es|ar).*libro.*calific/,
+          /peso.*actividades.*calific/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Configurar el libro de calificaciones:</b>
+            <ol>
+              <li>Entra al curso → <b>Calificaciones</b> → <b>Ajustes del libro</b>/<b>Configuración del curso</b>.</li>
+              <li>Crea <b>categorías</b> (p. ej., Exámenes, Tareas, Participación).</li>
+              <li>Define el <b>método de cálculo</b> (suma, media ponderada, etc.) y los <b>pesos</b>.</li>
+              <li>Coloca cada actividad en su <b>categoría</b> y verifica el <b>cálculo final</b>.</li>
+              <li>Guarda los cambios y revisa el <b>Informe del calificador</b>.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 7) Crear una tarea (si ya existe, puedes unificar/actualizar el intent actual).
+      //  Descripción: ESTA TIENE CONFLICTO con el intent "crear_tarea" de arriba, que es para estudiantes.
+      {
+        id: "prof_crear_tarea_pasoapaso",
+        patterns: [
+          /crear.*tarea.*docente/,
+          /configurar.*tarea.*docente/,
+          /actividad.*tarea.*docente/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Crear una tarea (docente):</b>
+            <ol>
+              <li>Activa la <b>edición</b> en el curso.</li>
+              <li><b>Añadir una actividad o un recurso</b> → <b>Tarea</b>.</li>
+              <li>Define <b>Nombre</b>, <b>Descripción</b> e <b>instrucciones</b>.</li>
+              <li>Configura <b>fechas</b> (desde, entrega, límite) y <b>tamaño máx. de archivo</b>.</li>
+              <li>Ajusta <b>Calificación</b> (puntuación y categoría) y <b>Tipos de entrega</b> (archivo/texto).</li>
+              <li>Guarda con <b>Guardar y mostrar</b>.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 8) Foro: preguntas generadoras y configuración básica
+      // ESTA NO FUNCIONA!! SEPA DIOS PORQUE
+      {
+        id: "prof_foro_preguntas_generadoras",
+        patterns: [
+          /preguntas.*generadoras.*foro/,
+          /crear.*foro.*debate/,
+          /configurar.*foro.*discusion/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Crear un foro con preguntas generadoras:</b>
+            <ol>
+              <li>Activa la <b>edición</b> → <b>Añadir actividad</b> → <b>Foro</b>.</li>
+              <li>Escribe <b>Nombre</b> y <b>Descripción</b> (instrucciones, reglas y tus preguntas generadoras).</li>
+              <li>Elige <b>Tipo</b>: <i>Debate sencillo</i> para un único tema.</li>
+              <li>Define <b>Disponibilidad</b> (fecha de entrega y fecha límite si requieres cierre).</li>
+              <li>En <b>Adjuntos</b>, fija cantidad y tamaño, y habilita el <b>recuento de palabras</b> si lo necesitas.</li>
+              <li>En <b>Suscripción</b>, usa <i>forzosa</i> si quieres asegurar la participación.</li>
+              <li>En <b>Evaluación</b>, asigna <b>Escala</b> o <b>puntos</b> según tu rúbrica.</li>
+              <li><b>Guardar cambios y regresar al curso</b>.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 9) Reutilización/Importación de cursos
+      {
+        id: "prof_reutilizacion_importacion",
+        patterns: [
+          /reutilizaci(o|ó)n.*curso/,
+          /importar.*curso/,
+          /copiar.*contenido.*curso/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Importar (reutilizar) contenido de otro curso:</b>
+            <ol>
+              <li>Abre <b>dos ventanas</b>: curso origen (viejo) y curso destino (vacío).</li>
+              <li>En el curso destino: <b>Más</b> → <b>Reutilización de curso</b> → <b>Importar</b>.</li>
+              <li>Busca el curso origen por <b>código</b> (p. ej., <i>ADM-3200-01</i>) y selecciónalo.</li>
+              <li>Elige qué <b>elementos copiar</b> (desmarca lo que no quieres: enlaces de Teams/WhatsApp, etc.).</li>
+              <li>Revisa el resumen (verde = se copiará) y confirma con <b>Realizar la importación</b>.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 10) Crear actividad H5P
+      {
+        id: "prof_crear_h5p",
+        patterns: [
+          /crear.*h5p/,
+          /contenido.*interactivo.*h5p/,
+          /agregar.*h5p/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Crear una actividad H5P:</b>
+            <ol>
+              <li>Activa <b>edición</b> → <b>Añadir actividad</b> → <b>Contenido interactivo H5P</b>.</li>
+              <li>Asigna un <b>nombre</b> y crea el contenido en el <b>editor H5P</b> o <b>sube</b> un archivo .h5p.</li>
+              <li>Configura <b>calificación</b>, <b>intentos</b> y <b>restricciones de acceso</b>.</li>
+              <li>Guarda los cambios.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 11) Reiniciar curso (reset)
+      {
+        id: "prof_reiniciar_curso",
+        patterns: [
+          /reiniciar.*curso/,
+          /reset.*curso/,
+          /revitalizar.*curso/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Reiniciar un curso para un nuevo ciclo:</b>
+            <ol>
+              <li>En el curso: <b>Más</b> → <b>Reutilización de curso</b> → <b>Reiniciar curso</b>.</li>
+              <li>Elige qué <b>reiniciar</b>: calificaciones, actividades, usuarios, foros, etc.</li>
+              <li>Confirma. El curso queda limpio para el nuevo ciclo, <b>manteniendo la estructura</b>.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 12) Diseñar y aplicar cuestionarios (resumen docente)
+      {
+        id: "prof_diseniar_aplicar_cuestionarios",
+        patterns: [
+          /disenar.*cuestionario/,
+          /aplicar.*cuestionario/,
+          /configurar.*examen.*moodle/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Diseñar y aplicar un cuestionario:</b>
+            <ol>
+              <li>Activa <b>edición</b> → <b>Añadir actividad</b> → <b>Cuestionario</b>.</li>
+              <li>Define <b>nombre</b>, <b>descripción</b>, <b>tiempos</b> e <b>intentos</b>.</li>
+              <li>Agrega preguntas nuevas o desde el <b>banco de preguntas</b>.</li>
+              <li>Configura <b>calificación</b> (p. ej., calificación más alta o promedio).</li>
+              <li>Publica. Los estudiantes podrán responder según las fechas establecidas.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 13) Filtrar entregas (calificadas/pendientes) en Tarea
+      {
+        id: "prof_filtrar_entregas_tarea",
+        patterns: [
+          /filtrar.*entregas/,
+          /ver.*entregas.*calificadas/,
+          /pendientes.*tarea/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Filtrar entregas en una Tarea:</b>
+            <ol>
+              <li>Abre la <b>Tarea</b> → <b>Ver todas las entregas</b>.</li>
+              <li>Usa los <b>filtros</b> para mostrar: <i>calificadas</i>, <i>pendientes</i>, <i>con retraso</i>.</li>
+              <li>Gestiona y revisa más rápido lo que necesitas evaluar.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 14) Penalizaciones por entregas tardías
+      {
+        id: "prof_penalizacion_retraso",
+        patterns: [
+          /penalizaci(o|ó)n.*tard[ií]as/,
+          /descuento.*entrega.*tarde/,
+          /fecha.*limite.*tarea/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Configurar penalización por entrega tardía:</b>
+            <ol>
+              <li>En la <b>Tarea</b>, edita la actividad.</li>
+              <li>Activa <b>Fecha límite</b> y establece la política de <b>penalización</b> (si tu configuración la ofrece) o define el manejo de <b>envíos fuera de plazo</b>.</li>
+              <li>Guarda y prueba con un usuario de ejemplo para validar el flujo.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 15) Crear cuestionario paso a paso (detalle)
+      {
+        id: "prof_crear_cuestionario_pasoapaso",
+        patterns: [
+          /crear.*cuestionario/,
+          /nuevo.*cuestionario/,
+          /configurar.*cuestionario/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Crear un cuestionario (paso a paso):</b>
+            <ol>
+              <li>Activa <b>edición</b> → <b>Añadir actividad</b> → <b>Cuestionario</b> → <b>Agregar</b>.</li>
+              <li>Completa <b>Nombre</b> y <b>Descripción</b> (instrucciones claras para estudiantes).</li>
+              <li>Define <b>apertura/cierre</b>, <b>tiempo límite</b> e <b>intentos permitidos</b>.</li>
+              <li>Configura <b>calificación</b> (puntaje máximo, método de agregación de intentos).</li>
+              <li>Guarda y luego entra a <b>Editar cuestionario</b> para agregar preguntas (nuevas o del banco).</li>
+              <li>Ordena preguntas y ajusta la <b>puntuación</b> de cada una → <b>Guardar</b> y publicar.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 16) Pre-crear/simular intentos (según disponibilidad)
+      {
+        id: "prof_precrear_intentos",
+        patterns: [
+          /pre.*crear.*intentos.*cuestionario/,
+          /simular.*intentos/,
+          /probar.*cuestionario.*docente/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Probar un cuestionario antes de publicarlo:</b>
+            <ol>
+              <li>Abre el <b>cuestionario</b> ya configurado.</li>
+              <li>Usa <b>Vista previa</b> para simular un intento y verificar tiempos, navegación y retroalimentación.</li>
+              <li>En <b>Configuración → Calificación</b>, ajusta <b>intentos permitidos</b> si necesitas múltiples ejecuciones.</li>
+              <li>(Opcional) Prueba con una <b>cuenta de estudiante de prueba</b> para ver el flujo real.</li>
+            </ol>
+            <div style="font-size:.95em;opacity:.85">Nota: Algunas instalaciones incluyen opciones avanzadas de simulación; si no las ves, usa Vista previa.</div>
+          </div>
+        `
+      },
+
+      // 17) Gestionar banco de preguntas
+      {
+        id: "prof_banco_preguntas_gestion",
+        patterns: [
+          /banco.*preguntas/,
+          /gestionar.*preguntas.*cuestionario/,
+          /importar.*exportar.*preguntas/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Gestionar el banco de preguntas:</b>
+            <ol>
+              <li>Ve a <b>Banco de preguntas</b> → <b>Preguntas</b>.</li>
+              <li><b>Crear:</b> <i>Agregar</i> → tipo (opción múltiple, V/F, etc.), redacta enunciado, respuestas y calificación → <b>Guardar</b>.</li>
+              <li><b>Duplicar:</b> selecciona la pregunta → <b>Duplicar</b> → ajusta y guarda.</li>
+              <li><b>Filtrar:</b> por <b>categoría</b>, <b>tipo</b> o <b>palabras clave</b> para encontrar más rápido.</li>
+              <li><b>Compartir:</b> <i>Exportar</i> (Moodle XML, GIFT) para usar en otros cursos; <i>Importar</i> para traer bancos externos.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 18) Accesibilidad: descripciones en imágenes
+      {
+        id: "prof_accesibilidad_descripcion_imagen",
+        patterns: [
+          /accesibilidad.*imagen/,
+          /descripcion.*larga.*imagen/,
+          /texto.*alternativo.*imagen/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Accesibilidad en imágenes (alt y descripción larga):</b>
+            <ol>
+              <li>En el editor, inserta o selecciona la <b>imagen</b>.</li>
+              <li>Abre <b>Propiedades de la imagen</b> → completa <b>Texto alternativo</b> (breve y descriptivo).</li>
+              <li>Si necesitas más detalle, agrega <b>Descripción larga</b> (Long description) con contexto y propósito.</li>
+              <li>Guarda y verifica con un <b>lector de pantalla</b> si es posible.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 19) Plantillas de respaldo (backup)
+      {
+        id: "prof_plantillas_respaldo",
+        patterns: [
+          /plantilla.*respaldo/,
+          /copia.*seguridad.*curso/,
+          /backup.*curso/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Crear y usar plantillas de respaldo:</b>
+            <ol>
+              <li>En el curso: <b>Más</b> → <b>Reutilización de curso</b> → <b>Copia de seguridad</b>.</li>
+              <li>Selecciona qué incluir: <b>actividades</b>, <b>bloques</b>, <b>calificaciones</b>, <b>usuarios</b>, etc.</li>
+              <li>Guarda la <b>plantilla</b> con un nombre claro (p. ej., “Respaldo-base-sin-usuarios”).</li>
+              <li>Reutiliza esa plantilla para crear <b>backups consistentes y rápidos</b>.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 20) EXTRA: Exportar calificaciones
+      {
+        id: "prof_exportar_calificaciones",
+        patterns: [
+          /exportar.*calificaci/,
+          /descargar.*calificaci/,
+          /informe.*calificador.*exportar/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Exportar calificaciones del curso:</b>
+            <ol>
+              <li>Entra a <b>Calificaciones</b> → <b>Exportar</b>.</li>
+              <li>Elige formato (CSV, XLSX, etc.) y <b>rango de ítems</b>.</li>
+              <li>Configura separadores/encabezados si usas CSV.</li>
+              <li>Haz clic en <b>Descargar</b> y verifica el archivo.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 21) EXTRA: Mostrar/Ocultar curso para estudiantes
+      {
+        id: "prof_mostrar_ocultar_curso",
+        patterns: [
+          /ocultar.*curso/,
+          /mostrar.*curso/,
+          /disponibilidad.*curso/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Ocultar o mostrar el curso a estudiantes:</b>
+            <ol>
+              <li>Abre <b>Configuración del curso</b>.</li>
+              <li>En <b>Visibilidad del curso</b>, elige <b>Ocultar</b> o <b>Mostrar</b>.</li>
+              <li>Guarda. <span style="opacity:.85">Útil antes del inicio o para mantenimiento.</span></li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 22) EXTRA: Ajustar tamaño máximo de archivo en Tarea
+      {
+        id: "prof_tarea_tamano_archivo",
+        patterns: [
+          /tam(a|á)no.*archivo.*tarea/,
+          /limite.*mb.*tarea/,
+          /peso.*archivo.*tarea/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Cambiar el tamaño máximo de archivo en una Tarea:</b>
+            <ol>
+              <li>Editar la <b>Tarea</b> → sección <b>Tipos de entrega</b>.</li>
+              <li>Ajusta <b>Tamaño máximo de envío</b> (p. ej., 20&nbsp;MB).</li>
+              <li>Guarda y comunica el límite a tus estudiantes.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 23) EXTRA: Reabrir intento o dar intento extra en cuestionario
+      {
+        id: "prof_cuestionario_intento_extra",
+        patterns: [
+          /dar.*intento.*extra/,
+          /reabrir.*intento.*cuestionario/,
+          /permitir.*otro.*intento/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Conceder un intento extra en un cuestionario:</b>
+            <ol>
+              <li>Abre el <b>cuestionario</b> → <b>Intentos</b> / <b>Resultados</b>.</li>
+              <li>Localiza al estudiante y usa <b>anulación de usuario</b> (override) para cambiar <b>intentos</b> y/o <b>tiempo</b>.</li>
+              <li>Guarda. Informa al estudiante para que vuelva a ingresar.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // 24) EXTRA: Permitir reenvío (reapertura) de tarea
+      {
+        id: "prof_tarea_reenvio",
+        patterns: [
+          /permitir.*reenv[ií]o.*tarea/,
+          /reabrir.*tarea/,
+          /otro.*env[ií]o.*tarea/
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Permitir reenvío de una Tarea:</b>
+            <ol>
+              <li>Editar la <b>Tarea</b> → ajusta <b>Fecha de entrega</b>/<b>Fecha límite</b> o habilita <b>Requerir que los estudiantes hagan clic en Enviar</b> para controlar estados.</li>
+              <li>En <b>Calificación</b>, habilita <b>flujo de calificación</b> si quieres controlar la liberación de notas.</li>
+              <li>Guarda y avisa al estudiante que ya puede volver a enviar.</li>
+            </ol>
+          </div>
+        `
+      }
+      ,
+
+      // Aqui comienzan las preguntas diseñadas para los estudiantes las que paso Melvin.
+      // ---------------------------------------------------------
+      // Permite al estudiante editar su perfil (datos básicos).
+      // Patrones: verbos comunes (modificar/editar/cambiar) + "perfil".
+      // Nota: mantenemos términos genéricos para capturar variaciones.
+      // ---------------------------------------------------------
+      {
+        id: "alumno_modificar_perfil",
+        patterns: [
+          /modificar.*perfil/i,
+          /editar.*perfil.*estudiante/i,
+          /cambiar.*informaci[oó]n.*perfil/i
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Modificar tu perfil en Moodle:</b>
+            <ol>
+              <li>Inicia sesión en la plataforma.</li>
+              <li>Haz clic en tu nombre o foto (esquina superior derecha).</li>
+              <li>Selecciona <b>Perfil</b> y luego <b>Editar perfil</b>.</li>
+              <li>Cambia los datos que necesites: nombre, correo, descripción, idioma, etc.</li>
+              <li>Haz clic en <b>Guardar cambios</b> para aplicar la actualización.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // -----------------------------------------------------------------
+      // Cambiar/añadir foto de perfil.
+      // Patrones: "agregar/subir/cambiar" + "foto" + "perfil".
+      // Consejo: si tu UI usa compresión/recorte, podrías enlazar un tip.
+      // -----------------------------------------------------------------
+      {
+        id: "alumno_foto_perfil",
+        patterns: [
+          /agregar.*foto.*perfil/i,
+          /subir.*foto.*perfil/i,
+          /cambiar.*foto.*perfil/i
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Añadir o cambiar tu foto de perfil:</b>
+            <ol>
+              <li>Ve a <b>Perfil → Editar perfil</b>.</li>
+              <li>En la sección <b>Imagen del usuario</b>, arrastra tu foto o haz clic en <b>Agregar archivo</b>.</li>
+              <li>Sube la imagen y guarda los cambios.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // --------------------------------------------------------------------
+      // Recuperación de contraseña (flujo estándar de "olvidé mi contraseña").
+      // Patrones: cubrir "recuperar", "olvidé", "resetear" + (contraseña/clave).
+      // Nota: incluimos (ñ/n) y acentos en regex para robustez básica.
+      // --------------------------------------------------------------------
+      {
+        id: "alumno_recuperar_contrasena",
+        patterns: [
+          /recuperar.*contrase[nñ]a/i,
+          /olvid[eé].*clave/i,
+          /resetear.*clave/i
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Recuperar tu contraseña:</b>
+            <ol>
+              <li>En la pantalla de inicio, haz clic en <b>¿Olvidó su nombre de usuario o contraseña?</b>.</li>
+              <li>Ingresa tu correo o usuario registrado.</li>
+              <li>Revisa tu correo y sigue el enlace para crear una nueva clave.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // ----------------------------------------------------------------------
+      // Explica qué son las "etiquetas" (área de texto y medios) en el curso.
+      // Patrones: consultas tipo "¿qué son?" y verbos "usar/insertar".
+      // Nota: útil para estudiantes curiosos y también asistentes de cátedra.
+      // ----------------------------------------------------------------------
+      {
+        id: "alumno_etiquetas",
+        patterns: [
+          /qu[eé].*son.*etiquetas/i,
+          /usar.*etiquetas.*curso/i,
+          /insertar.*texto.*imagen.*curso/i
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Usar etiquetas en un curso:</b>
+            <ol>
+              <li>Activa la <b>edición</b> en el curso.</li>
+              <li>Haz clic en <b>Añadir actividad o recurso</b>.</li>
+              <li>Selecciona <b>Área de texto y medios</b> (etiqueta).</li>
+              <li>Escribe el contenido: texto, imagen, video o enlace.</li>
+              <li>Guarda los cambios.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // -------------------------------------------------------------
+      // Auto-matriculación (sin o con clave si el curso la requiere).
+      // Patrones: "auto-matricular", "inscripción automática", "unirme".
+      // Consejo: en tu instancia cambia "Moodle" por "Sinapsis" si aplica.
+      // -------------------------------------------------------------
+
+      //Esta tiene conflicto con el intent "matricularme con clave" de arriba.
+      // Lo ideal sería unificar ambos en uno solo, pero como no tengo claro el flujo
+      {
+        id: "alumno_autoregistro",
+        patterns: [
+          /auto.*matricul(ar|aci[oó]n)/i,
+          /inscripci[oó]n.*autom[aá]tica/i,
+          /unirme.*curso.*sin.*clave/i
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Auto-matricularte en un curso:</b>
+            <ol>
+              <li>Inicia sesión en Moodle.</li>
+              <li>Abre el listado de cursos disponibles.</li>
+              <li>Haz clic en el curso que te interese y pulsa <b>Matricularme</b>.</li>
+              <li>Si pide clave, introdúcela y confirma.</li>
+              <li>El curso quedará en tu página principal.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // -------------------------------------------------------------------
+      // Matriculación cuando el curso tiene clave (incluye fuente de claves).
+      // Patrones: "matricularme con clave", "acceso con clave", "inscribirme".
+      // Nota: personaliza el paso de "dónde ver claves" a tu institución.
+      // -------------------------------------------------------------------
+
+      //Esta tiene conflicto con el intent "matricularme con clave" de arriba.
+      // Lo ideal sería unificar ambos en uno solo, pero como no tengo claro el flujo
+      {
+        id: "alumno_matricula_clave",
+        patterns: [
+          /matricul(ar|aci[oó]n).*clave/i,
+          /inscribirme.*clave/i,
+          /acceso.*curso.*clave/i
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Matricularte con clave de acceso:</b>
+            <ol>
+              <li>Inicia sesión en Moodle.</li>
+              <li>Busca el curso y haz clic en él.</li>
+              <li>Consulta la página oficial donde publican las <b>claves de acceso</b> por día.</li>
+              <li>Introduce la clave en Moodle y confirma tu matrícula.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // -------------------------------------------------
+      // Dónde ver las calificaciones del curso (libreta).
+      // Patrones: "ver notas/calificaciones".
+      // -------------------------------------------------
+      {
+        id: "alumno_ver_calificaciones",
+        patterns: [
+          /ver.*calificaciones/i,
+          /notas.*curso/i,
+          /calificaci[oó]n.*tareas/i
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Ver tus calificaciones:</b>
+            <ol>
+              <li>Entra al curso.</li>
+              <li>Abre el menú lateral y haz clic en <b>Calificaciones</b>.</li>
+              <li>Verás tu libreta con tareas, exámenes y comentarios del profesor.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // ----------------------------------------------
+      // Participación en foros (crear y responder).
+      // Patrones: "participar/publicar/debate".
+      // ----------------------------------------------
+
+      //ESTA NO FUNCIONA!! SEPA DIOS PORQUE
+      {
+        id: "alumno_foro_participar",
+        patterns: [
+          /participar.*foro/i,
+          /publicar.*foro/i,
+          /debate.*foro/i
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Participar en un foro:</b>
+            <ol>
+              <li>Entra al curso y busca la actividad <b>Foro</b>.</li>
+              <li>Haz clic en el título del foro.</li>
+              <li>Abre un tema existente o crea uno nuevo.</li>
+              <li>Escribe tu mensaje, adjunta archivos si es necesario.</li>
+              <li>Pulsa <b>Enviar al foro</b>.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // -------------------------------------------------------------------
+      // Notificaciones y retroalimentación (campana + preferencias).
+      // Patrones: términos genéricos "notificaciones/avisos/mensajes".
+      // -------------------------------------------------------------------
+      {
+        id: "alumno_notificaciones",
+        patterns: [
+          /notificaciones/i,
+          /avisos.*plataforma/i,
+          /mensajes.*moodle/i
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Recibir notificaciones:</b>
+            <ol>
+              <li>Haz clic en la <b>campana de notificaciones</b> en la barra superior.</li>
+              <li>Activa notificaciones por correo o SMS en <b>Perfil → Preferencias → Preferencias de Notificaciones</b>.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // -------------------------------------------------------
+      // Ordenar/organizar cursos en el área personal del alumno.
+      // Patrones: "ordenar/organizar/ver ordenados".
+      // -------------------------------------------------------
+      {
+        id: "alumno_ordenar_cursos",
+        patterns: [
+          /ordenar.*cursos/i,
+          /organizar.*cursos/i,
+          /ver.*cursos.*ordenados/i
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Ordenar tus cursos:</b>
+            <ol>
+              <li>Ve a la página principal de tu área personal.</li>
+              <li>En <b>Mis cursos</b>, selecciona ordenar por fecha o alfabéticamente.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // --------------------------------------------------------------------
+      // Consultar entregas y penalizaciones por retraso en tareas.
+      // Patrones: "consultar/ver/revisar" + "entregas/retraso".
+      // --------------------------------------------------------------------
+      {
+        id: "alumno_consultar_entregas",
+        patterns: [
+          /consultar.*entregas/i,
+          /ver.*tareas.*entregadas/i,
+          /revisar.*retraso.*tareas/i
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>Consultar tus entregas y penalizaciones:</b>
+            <ol>
+              <li>Entra a tu curso.</li>
+              <li>Ve a la sección <b>Tareas</b>.</li>
+              <li>Haz clic en la tarea para ver fecha, estado y penalizaciones si hubo retrasos.</li>
+            </ol>
+          </div>
+        `
+      },
+
+      // --------------------------------------------------------------------------------
+      // Reproducción de contenidos H5P en app móvil (autoplay sujeto a compatibilidad).
+      // Patrones: "h5p móvil", "reproducir h5p app", "h5p automático".
+      // Nota: aclaramos que no todos los tipos admiten autoplay por restricciones.
+      // --------------------------------------------------------------------------------
+      {
+        id: "alumno_h5p_movil",
+        patterns: [
+          /h5p.*m[oó]vil/i,
+          /reproducir.*h5p.*app/i,
+          /h5p.*autom[aá]tico/i
+        ],
+        answer: `
+          <div class="respuesta-bloque">
+            <b>H5P en la app móvil:</b>
+            <ol>
+              <li>Abre la actividad H5P en la app Moodle.</li>
+              <li>Si el contenido permite reproducción automática, habilítala desde el editor H5P en la web.</li>
+              <li>Ten en cuenta que no todos los contenidos H5P admiten autoplay en móviles.</li>
+            </ol>
+          </div>
+        `
+      }
+
+
+
       ];
 
       // --- UI wiring ---
