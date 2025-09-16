@@ -953,13 +953,17 @@ body.dark-mode {
       },
 
       // 8) Foro: preguntas generadoras y configuración básica
-      // ESTA NO FUNCIONA!! SEPA DIOS PORQUE
+      // CORREGIDO: Patrones más flexibles para mejor coincidencia
       {
         id: "prof_foro_preguntas_generadoras",
         patterns: [
-          /preguntas.*generadoras.*foro/,
-          /crear.*foro.*debate/,
-          /configurar.*foro.*discusion/
+          /preguntas.*generadoras/,
+          /foro.*preguntas/,
+          /crear.*foro/,
+          /foro.*debate/,
+          /configurar.*foro/,
+          /foro.*discusion/,
+          /foro.*discusión/
         ],
         answer: `
           <div class="respuesta-bloque">
@@ -1500,13 +1504,20 @@ body.dark-mode {
       // Patrones: "participar/publicar/debate".
       // ----------------------------------------------
 
-      //ESTA NO FUNCIONA!! SEPA DIOS PORQUE
+      // CORREGIDO: Patrones más flexibles para mejor coincidencia
       {
         id: "alumno_foro_participar",
         patterns: [
           /participar.*foro/i,
+          /foro.*participar/i,
           /publicar.*foro/i,
-          /debate.*foro/i
+          /foro.*publicar/i,
+          /debate.*foro/i,
+          /foro.*debate/i,
+          /escribir.*foro/i,
+          /foro.*escribir/i,
+          /mensaje.*foro/i,
+          /foro.*mensaje/i
         ],
         answer: `
           <div class="respuesta-bloque">
