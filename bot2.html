@@ -1,11 +1,13 @@
 <div id="nc-bot" class="nc" style="font-family: system-ui,Arial;">
+  <section id="view-chat" class="view active" aria-hidden="false">
   <div class="nc-card">
-    <strong class="nc-header">🤖 Chatbot de Prueba - Unidad TAC</strong>
+    <strong class="nc-header"><img src="LogoUso1.svg" alt="Logo" width="22" height="22" style="margin-right: 10px;">Chatbot de Prueba - Unidad TAC</strong>
 
     <div class="nc-toolbar">
       <button id="nc-theme" class="nc-theme-btn" type="button" aria-pressed="false" title="Cambiar tema">
         🌙 Modo oscuro
       </button>
+      <button id="toFaq" class="nc-theme-btn" type="button" title="Ir a Preguntas frecuentes">❓ Preguntas frecuentes</button>
     </div>
 
 
@@ -17,11 +19,588 @@
      <button class="nc-chip" data-q="¿Tienes un video para matriculación?">Video matriculación</button>
     </div>
 
-    <div id="nc-form" class="nc-form">
-      <input id="nc-input" class="nc-input" type="text" placeholder="Escribe tu pregunta…" required>
+    <div id="nc-form" class="nc-form" style="position:relative">
+      <input id="nc-input" class="nc-input" type="text" placeholder="Escribe tu pregunta…" required autocomplete="off">
       <button id="nc-send" class="nc-send" type="button">Enviar</button>
+      <div id="chat-suggestions" class="nc-suggest-list" style="display:none"></div>
     </div>
   </div>
+  </section>
+
+  <section id="view-faq" class="view" aria-hidden="true">
+  <header class="faq-header">
+    <div class="faq-wrap faq-toolbar">
+      <div class="faq-header-left">
+        <img src="LogoUso1.svg" alt="Logo" width="28" height="28">
+        <h2 class="faq-title" id="faqTitle" tabindex="-1"><span>Preguntas Frecuentes</span></h2>
+      </div>
+      <div class="faq-header-right">
+        <button id="backToBot" class="back-btn" type="button" title="Volver al chatbot">← Volver al Chatbot</button>
+        <button id="themeToggleFaq" class="back-btn" type="button" title="Cambiar tema">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="faq-search">
+    <input type="text" id="searchInput" placeholder="Buscar preguntas..." autocomplete="off" />
+    <div id="questions-suggestions" class="nc-suggest-list" style="display:none"></div>
+  </div>
+
+  <div class="faq-wrap faq-pills">
+    <button class="pill" onclick="showSection('estudiante')">Estudiante</button>
+    <button class="pill" onclick="showSection('docente')">Docente</button>
+  </div>
+  <div class="faq-wrap faq-actions">
+    <button id="expandAllBtn" class="pill">Expandir Todo</button>
+    <button id="collapseAllBtn" class="pill">Contraer Todo</button>
+  </div>
+
+  <div id="estudiante" class="section active">
+    <h2 style="text-align:center;margin-top:0">Sección para Estudiantes</h2>
+    <details>
+            <summary>1. ¿Cómo modificar tu perfil?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Inicia sesión en la plataforma.</li>
+                    <li>Haz clic en tu nombre o tu foto en la esquina superior.</li>
+                    <li>Selecciona Perfil.</li>
+                    <li>En la página de tu perfil, pulsa en Editar perfil.</li>
+                    <li>Podrás cambiar: nombre, apellidos, dirección de correo, descripción personal, idioma preferido, etc.</li>
+                    <li>Una vez hechos los cambios, selecciona Guardar cambios.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>2. ¿Cómo añadir una foto a tu perfil?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Accede a tu perfil como en el paso anterior.</li>
+                    <li>En Editar perfil, busca la sección Imagen del usuario.</li>
+                    <li>Arrastra y suelta tu foto en el área designada o selecciona Agregar archivo.</li>
+                    <li>Haz clic en Guardar cambios.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>3. ¿Cómo recuperar la contraseña?</summary>
+            <div class="answer">
+                <ul>
+                    <li>En la pantalla de inicio de sesión, selecciona la opción ¿Olvidó su nombre de usuario o contraseña?</li>
+                    <li>Ingresa tu dirección de correo registrada o tu nombre de usuario.</li>
+                    <li>Recibirás un mensaje de correo con un enlace para restablecer la contraseña.</li>
+                    <li>Haz clic en el enlace y crea una nueva clave de acceso.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>4. ¿Cómo puedo auto matricularme en un curso?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Inicia sesión en Sinapsis.</li>
+                    <li>Ve al listado de cursos disponibles.</li>
+                    <li>Haz clic en el curso al que deseas unirte.</li>
+                    <li>Si el curso tiene activada la auto-matriculación, aparecerá un botón "Matricularme".</li>
+                    <li>Si se requiere una clave de acceso, introdúcela y confirma.</li>
+                    <li>Una vez matriculado, el curso aparecerá en tu página principal.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>5. ¿Cómo puedo matricularme si el curso tiene clave?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Inicia sesión en Sinapsis.</li>
+                    <li>Ve al listado de cursos disponibles.</li>
+                    <li>Haz clic en el curso al que deseas unirte.</li>
+                    <li>Si el curso tiene clave, dirígete a la página de la "Universidad de Sonsonate", ve a servicios y busca "Horarios de Claves de Sinapsis y Teams".</li>
+                    <li>Ingresa en esa sección y busca por día la clave de la materia que necesitas.</li>
+                    <li>Regresa a Sinapsis y introduce la clave de acceso y confirma.</li>
+                    <li>Una vez matriculado, el curso aparecerá en tu página principal.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>6. ¿Dónde puedo ver la descripción de un curso?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Ingresa a la página principal del curso.</li>
+                    <li>La descripción del curso se encuentra en la parte superior o en la sección inicial.</li>
+                    <li>Allí verás los objetivos, criterios de evaluación y actividades programadas.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>7. ¿Cómo participo en un foro?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Dentro del curso, localiza la actividad Foro.</li>
+                    <li>Haz clic en el título del foro.</li>
+                    <li>Selecciona un tema ya existente o pulsa "Añadir un nuevo tema de discusión".</li>
+                    <li>Escribe el asunto y tu mensaje.</li>
+                    <li>Puedes adjuntar archivos o imágenes.</li>
+                    <li>Haz clic en "Enviar al foro".</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>8. ¿Dónde veo mis calificaciones?</summary>
+            <div class="answer">
+                <ul>
+                    <li>En el curso, abre el menú lateral.</li>
+                    <li>Haz clic en "Calificaciones".</li>
+                    <li>Se mostrará la libreta de calificaciones con tus tareas, cuestionarios y la retroalimentación del profesor.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>9. ¿Cómo recibo notificaciones y retroalimentación?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Revisa la campana de notificaciones en la barra superior.</li>
+                    <li>Ahí verás avisos de nuevas tareas, calificaciones o mensajes.</li>
+                    <li>También puedes activar notificaciones por correo electrónico o SMS desde tu perfil → Preferencias → Preferencias de Notificaciones.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>10. ¿Cómo puedo ordenar mis cursos?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Ve a la página principal de tu área personal.</li>
+                    <li>En la sección "Mis cursos", usa las opciones de ordenamiento.</li>
+                    <li>Selecciona ordenar por fecha de inicio o alfabéticamente.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>11. ¿Qué significa que un curso muestre fechas como "Hoy / Mañana / Ayer"?</summary>
+            <div class="answer">
+                <ul>
+                    <li>En Moodle 5.0, las fechas de las actividades y eventos aparecen con un formato natural:</li>
+                    <li>Hoy: actividades que vencen en el mismo día.</li>
+                    <li>Mañana: próximas actividades.</li>
+                    <li>Ayer: actividades pasadas.</li>
+                    <li>Esto facilita la comprensión del calendario.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>12. ¿Cómo consultar mis entregas y penalizaciones por retraso?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Ingresa a tu curso.</li>
+                    <li>Dirígete a la sección Tareas o Actividades.</li>
+                    <li>Haz clic en la tarea que deseas revisar.</li>
+                    <li>Verás tu fecha de entrega, el estado de la entrega y cualquier retroalimentación del docente.</li>
+                    <li>Si hubo retraso en la entrega, Moodle mostrará las penalizaciones aplicadas automáticamente según la configuración de la tarea.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>13. ¿Cómo puedo hacer que los contenidos H5P se reproduzcan automáticamente en la app móvil de Moodle?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Abrir la actividad H5P dentro de la app.</li>
+                    <li>Algunos tipos de contenido H5P, como videos interactivos, permiten configurar la reproducción automática desde el editor H5P en el navegador web.</li>
+                    <li>Una vez configurada, al abrir el contenido desde la app móvil, comenzará automáticamente la reproducción si la actividad lo permite.</li>
+                    <li>Nota: No todos los contenidos H5P admiten reproducción automática en dispositivos móviles debido a restricciones del navegador y la app.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>14. ¿Cómo entregar tareas (con límite de 20 MB)?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Ingresa al curso y selecciona la actividad Tarea.</li>
+                    <li>Lee las instrucciones y verifica la fecha límite.</li>
+                    <li>Haz clic en Agregar entrega.</li>
+                    <li>Adjunta el archivo desde tu computadora (máximo 20 MB, según configuración del curso).</li>
+                    <li>Haz clic en Guardar cambios.</li>
+                    <li>Si lo deseas, selecciona Enviar tarea para confirmarla de forma definitiva.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+        <details>
+            <summary>15. ¿Cómo resolver cuestionarios (exámenes virtuales)?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Entra al curso y selecciona el cuestionario.</li>
+                    <li>Lee la información inicial: fecha de apertura, tiempo límite y número de intentos.</li>
+                    <li>Haz clic en Intentar resolver el cuestionario ahora.</li>
+                    <li>Responde cada pregunta siguiendo las indicaciones (opción múltiple, verdadero/falso, ensayo, etc.).</li>
+                    <li>Al finalizar, selecciona Finalizar intento.</li>
+                    <li>Revisa tus respuestas y luego confirma con Enviar todo y terminar.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+  </div>
+
+  <div id="docente" class="section">
+    <h2 style="text-align:center;margin-top:0">Sección para Docentes</h2>
+    <details>
+            <summary>1. ¿Cómo activar la automatrícula en un curso?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Ingresa al curso donde quieres habilitar la automatrícula.</li>
+                    <li>En el menú del curso selecciona Participantes.</li>
+                    <li>Haz clic en el menú desplegable y elige Métodos de inscripción.</li>
+                    <li>Verás una lista de métodos disponibles. Localiza Automatrícula y actívalo haciendo clic en el ícono del "ojo" para que quede visible.</li>
+                    <li>Para configurarlo, selecciona el ícono de ajustes junto a "Automatrícula".</li>
+                    <li>Define si deseas usar una clave de inscripción (contraseña de acceso).</li>
+                    <li>Ajusta la duración de la matrícula, fecha de inicio o fin, número máximo de usuarios y mensajes de bienvenida.</li>
+                    <li>Guarda los cambios.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>2. ¿Cómo matricular usuarios manualmente en un curso?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Entra al curso.</li>
+                    <li>Ve a la sección Participantes.</li>
+                    <li>En el menú, selecciona Métodos de inscripción.</li>
+                    <li>Comprueba que el método Matrícula manual esté activo (ícono de ojo abierto).</li>
+                    <li>Haz clic en Matricular usuarios.</li>
+                    <li>Selecciona a las personas que deseas inscribir.</li>
+                    <li>Asigna un rol (por ejemplo, estudiante).</li>
+                    <li>Si lo deseas, establece una duración de la matrícula o fecha de inicio y fin.</li>
+                    <li>Confirma con Matricular usuarios seleccionados.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>3. ¿Cómo añadir la descripción del curso?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Ingresa al curso y haz clic en Configuración del curso.</li>
+                    <li>Dentro del apartado General, localiza el campo Descripción.</li>
+                    <li>Escribe un resumen claro que explique los objetivos, contenidos y metodología del curso.</li>
+                    <li>Si lo deseas, adjunta archivos o imágenes de apoyo.</li>
+                    <li>Guarda los cambios.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>4. ¿Cómo configurar la calificación del curso?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Entra al curso y abre el menú Calificaciones.</li>
+                    <li>Haz clic en Ajustes de la calificación del curso.</li>
+                    <li>Aquí puedes:</li>
+                    <li>Organizar categorías (por ejemplo: exámenes, tareas, participación).</li>
+                    <li>Definir el peso de cada actividad.</li>
+                    <li>Ajustar el método de cálculo (suma de calificaciones, media ponderada, etc.).</li>
+                    <li>Guarda los cambios.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>5. ¿Cómo crear una tarea?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Entra al curso y activa la edición.</li>
+                    <li>En la sección donde quieras colocar la tarea, haz clic en Añadir una actividad o recurso.</li>
+                    <li>Selecciona Tarea y pulsa Agregar.</li>
+                    <li>Completa los campos: nombre de la tarea, descripción e instrucciones.</li>
+                    <li>Configura fechas de inicio y entrega.</li>
+                    <li>Establece el tamaño máximo de archivo (ejemplo: 20 MB).</li>
+                    <li>Ajusta la calificación (puntuación máxima, categorías).</li>
+                    <li>Guarda y regresa al curso.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>6. ¿Cómo redactar preguntas generadoras para foros de discusión?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Activar la edición. En tu curso, haz clic en el ícono de engranaje y selecciona Activar edición.</li>
+                    <li>Añadir una actividad. Haz clic en Añadir una actividad o un recurso en la sección donde quieras colocar el foro.</li>
+                    <li>Seleccionar el tipo de actividad. En la ventana emergente, elige la pestaña Actividades y selecciona Foro.</li>
+                    <li>Configurar el foro:</li>
+                    <li>Nombre del foro: Asigna un título claro.</li>
+                    <li>Descripción: Aquí puedes incluir las instrucciones, las reglas de participación y las preguntas generadoras que iniciarán el debate.</li>
+                    <li>Tipo de foro: Despliega las opciones y selecciona Debate sencillo.</li>
+                    <li>Ajustar la disponibilidad, fechas de entrega y límite.</li>
+                    <li>Configurar adjuntos y recuento de palabras.</li>
+                    <li>Establecer modalidad de suscripción (Suscripción forzosa si quieres participación obligatoria).</li>
+                    <li>Configurar evaluación y calificación.</li>
+                    <li>Guardar los cambios.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>7. ¿Cómo reutilizar cursos (Importación)?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Abre dos ventanas del navegador. En una, abre el curso viejo que contiene toda la información. En la segunda, abre el curso nuevo que está vacío.</li>
+                    <li>Inicia la importación en el curso nuevo. Ve a la opción de más y busca "Reutilización de Curso" en la parte superior derecha y haz clic en Reutilización de curso. Luego, selecciona Importar.</li>
+                    <li>Busca el curso a importar. Regresa a la ventana del curso viejo. Busca y copia el código de la asignatura más la sesión (por ejemplo, ADM-3200-01).</li>
+                    <li>Pega este código en la barra de búsqueda del curso nuevo y haz clic en Buscar.</li>
+                    <li>Selecciona el curso. Asegúrate de que el resultado de la búsqueda coincida con el curso viejo. Selecciónalo y haz clic en Continuar.</li>
+                    <li>Ajusta los elementos a copiar. Moodle te mostrará una lista de todos los elementos del curso viejo. Por defecto, todo estará seleccionado. Desmarca aquellos que no quieras copiar y haz clic en Siguiente.</li>
+                    <li>Confirma la importación. Revisa la lista final. Moodle marcará en verde lo que se copiará y en rojo lo que no. Si todo es correcto, haz clic en Realizar la importación.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>8. ¿Cómo puedo crear una actividad H5P en Moodle 5.0?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Ingresa al curso y activa el modo edición.</li>
+                    <li>Haz clic en Añadir actividad o recurso.</li>
+                    <li>Selecciona Contenido interactivo H5P y haz clic en Agregar.</li>
+                    <li>Escribe un nombre para la actividad y agrega el contenido H5P desde el editor H5P o sube un archivo existente.</li>
+                    <li>Configura opciones como calificación, intentos y restricciones de acceso.</li>
+                    <li>Guarda los cambios y la actividad estará disponible para los estudiantes.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>9. ¿Cómo puedo revitalizar o reiniciar un curso en Moodle 5.0?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Ve al curso y selecciona Más → Reutilización de curso → Reiniciar curso.</li>
+                    <li>Elige los elementos que deseas reiniciar: calificaciones, actividades, usuarios matriculados, foros, etc.</li>
+                    <li>Confirma la acción. Esto dejará el curso listo para un nuevo ciclo sin perder su estructura.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>10. ¿Cómo puedo diseñar y aplicar cuestionarios en Moodle 5.0?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Activa el modo edición y selecciona Añadir actividad o recurso → Cuestionario.</li>
+                    <li>Define nombre, descripción y parámetros de tiempo, intentos y calificación.</li>
+                    <li>Agrega preguntas desde el banco de preguntas o crea nuevas (opción múltiple, verdadero/falso, respuesta corta, etc.).</li>
+                    <li>Publica el cuestionario y los estudiantes podrán responder según las fechas y configuraciones establecidas.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>11. ¿Cómo puedo filtrar las entregas que ya he calificado en Moodle 5.0?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Ingresa a la tarea y haz clic en Ver todas las entregas.</li>
+                    <li>Utiliza los filtros para mostrar únicamente:</li>
+                    <li>Entregas calificadas</li>
+                    <li>Entregas pendientes</li>
+                    <li>Entregas con retraso</li>
+                    <li>Esto te permite gestionar fácilmente las calificaciones y revisiones.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>12. ¿Cómo configuro penalizaciones por entregas tardías en Moodle 5.0?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Al crear o editar una tarea, busca la sección Entrega o configuraciones.</li>
+                    <li>Activa la opción Fecha límite y selecciona la penalización por retraso.</li>
+                    <li>Moodle aplicará automáticamente un porcentaje de descuento en la calificación si la entrega se realiza después de la fecha límite.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>13. ¿Cómo puedo crear un cuestionario en Moodle 5.0?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Ingresa al curso donde deseas crear el cuestionario.</li>
+                    <li>Activa el modo edición haciendo clic en Activar edición.</li>
+                    <li>En la sección donde quieres agregar el cuestionario, haz clic en Añadir actividad o recurso.</li>
+                    <li>Selecciona Cuestionario y haz clic en Agregar.</li>
+                    <li>Completa los campos principales:</li>
+                    <li>Nombre del cuestionario: título visible para los estudiantes.</li>
+                    <li>Descripción: instrucciones o información sobre el cuestionario.</li>
+                    <li>Configura las opciones de disponibilidad y tiempo:</li>
+                    <li>Fecha de apertura y cierre del cuestionario.</li>
+                    <li>Tiempo límite para responder.</li>
+                    <li>Número de intentos permitidos.</li>
+                    <li>Configura calificación y retroalimentación:</li>
+                    <li>Escala o puntaje máximo.</li>
+                    <li>Tipo de calificación (promedio de intentos, calificación más alta, etc.).</li>
+                    <li>Guarda los cambios y vuelve al cuestionario.</li>
+                    <li>Haz clic en Editar cuestionario para agregar preguntas:</li>
+                    <li>Puedes crear nuevas preguntas (opción múltiple, verdadero/falso, respuesta corta, etc.).</li>
+                    <li>O seleccionar preguntas existentes desde el banco de preguntas del curso.</li>
+                    <li>Una vez agregadas las preguntas, ajusta el orden y la puntuación de cada una.</li>
+                    <li>Guarda los cambios y publica el cuestionario.</li>
+                    <li>Los estudiantes podrán acceder al cuestionario según la fecha de apertura y las restricciones que configuraste.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>14. ¿Cómo puedo pre-crear intentos de cuestionarios en Moodle 5.0?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Ingresa al curso y abre el cuestionario que deseas configurar.</li>
+                    <li>Ve a configuración → Calificación → Intentos permitidos.</li>
+                    <li>Configura el número máximo de intentos que cada estudiante podrá realizar.</li>
+                    <li>Si deseas que ciertos intentos ya estén pre-creados para análisis o pruebas, puedes utilizar la opción Simular intentos desde el cuestionario.</li>
+                    <li>Confirma los cambios. Esto permitirá que los estudiantes tengan los intentos listos según la configuración, y también podrás visualizar resultados de prueba.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>15. ¿Cómo gestiono el banco de preguntas en Moodle 5.0?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Ingresa al curso y ve a Banco de preguntas → Preguntas en el menú de administración.</li>
+                    <li>Crear una pregunta:</li>
+                    <li>Haz clic en Agregar → Tipo de pregunta (opción múltiple, verdadero/falso, etc.).</li>
+                    <li>Completa el enunciado, las opciones de respuesta y la calificación.</li>
+                    <li>Guarda los cambios.</li>
+                    <li>Duplicar una pregunta:</li>
+                    <li>Selecciona la pregunta que deseas duplicar.</li>
+                    <li>Haz clic en Duplicar, luego ajusta el contenido según necesites y guarda.</li>
+                    <li>Filtrar preguntas:</li>
+                    <li>Utiliza los filtros por categoría, tipo o palabras clave para encontrar preguntas específicas rápidamente.</li>
+                    <li>Compartir preguntas:</li>
+                    <li>Selecciona las preguntas deseadas.</li>
+                    <li>Haz clic en Exportar y elige el formato (Moodle XML, GIFT, etc.).</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>16. ¿Cómo puedo añadir descripciones largas a imágenes en Moodle 5.0 para mejorar la accesibilidad?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Al agregar o editar una imagen en cualquier actividad o recurso, haz clic en la imagen dentro del editor de texto.</li>
+                    <li>Busca la opción Propiedades de la imagen → Texto alternativo y escribe un resumen breve.</li>
+                    <li>Para descripciones largas, haz clic en Descripción larga o Long description (dependiendo del editor).</li>
+                    <li>Escribe un detalle completo sobre la imagen, explicando su contenido y contexto.</li>
+                    <li>Guarda los cambios.</li>
+                    <li>Esto permite que los lectores de pantalla describan correctamente la imagen, cumpliendo normas de accesibilidad.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>17. ¿Cómo puedo configurar plantillas de respaldos en Moodle 5.0?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Ingresa al curso y ve a más → Reutilización de curso → Copia de seguridad.</li>
+                    <li>Define los elementos que deseas incluir en el respaldo: actividades, bloques, calificaciones, usuarios, filtros, etc.</li>
+                    <li>Guarda la plantilla con un nombre identificativo.</li>
+                    <li>Ahora podrás usar esta plantilla para generar respaldos rápidos del curso sin necesidad de configurar cada opción nuevamente.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>18. ¿Qué son las etiquetas y cómo usarlas?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Las etiquetas en Moodle son un recurso que permite añadir texto, imágenes, videos o enlaces directamente en la página del curso.</li>
+                    <li>Para insertarlas:</li>
+                    <li>Activa la edición en el curso.</li>
+                    <li>Haz clic en Añadir una actividad o recurso en la sección deseada.</li>
+                    <li>Selecciona Área de texto y medios.</li>
+                    <li>Escribe el contenido: puede ser un título, una nota, un recordatorio, una imagen o un video incrustado.</li>
+                    <li>Guarda los cambios.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>19. ¿Cómo usar el banco de preguntas?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Entender los niveles del banco de preguntas: Nivel del sistema, Nivel de categoría, Nivel del curso.</li>
+                    <li>Acceder al banco de preguntas: Ve a tu curso, en Más selecciona Banco de preguntas.</li>
+                    <li>Crear una nueva pregunta: Selecciona tipo (opción múltiple, verdadero/falso, etc.), configura y guarda.</li>
+                    <li>Exportar e importar preguntas: Usa pestañas Exportar/Importar con formato Moodle XML.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>20. ¿Cómo crear una nueva pregunta en el banco de preguntas?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Dentro del banco de preguntas, haz clic en el botón Crear una nueva pregunta.</li>
+                    <li>Moodle te presentará una variedad de tipos de preguntas para elegir: Opción múltiple, Verdadero/Falso, Emparejamiento, Respuesta corta, Ensayo.</li>
+                    <li>Selecciona el tipo de pregunta que deseas y haz clic en Añadir.</li>
+                    <li>Configura la pregunta: nombre de la pregunta, enunciado de la pregunta, opciones de respuesta.</li>
+                    <li>Haz clic en Guardar cambios. La nueva pregunta se guardará en tu banco.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>21. ¿Cómo exportar e importar preguntas?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Exportar preguntas: En el banco de preguntas, haz clic en la pestaña Exportar. Selecciona el formato de archivo deseado (Moodle XML es el más común). Elige la categoría que deseas exportar y haz clic en Exportar preguntas a archivo.</li>
+                    <li>Importar preguntas: En el banco de preguntas, haz clic en la pestaña Importar. Selecciona el formato de archivo (por ejemplo, Moodle XML). Arrastra y suelta el archivo o utiliza el selector de archivos para subirlo desde tu computadora. Haz clic en Importar para añadir las preguntas a tu banco.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+
+        <details>
+            <summary>22. ¿Cómo poner nombre a un curso (consejos)?</summary>
+            <div class="answer">
+                <ul>
+                    <li>Al crear o editar un curso, ingresa a Configuración del curso.</li>
+                    <li>En el campo Nombre completo del curso, escribe el título que se mostrará a los estudiantes.</li>
+                    <li>En Nombre corto del curso, coloca una versión abreviada (ejemplo: MAT101).</li>
+                    <li>Guarda los cambios.</li>
+                </ul>
+                <a href="https://www.youtube.com/watch?v=placeholder" target="_blank" class="video-link">Ver Video Tutorial</a>
+            </div>
+        </details>
+  </div>
+  </section>
+
 </div>
 
 <style>
@@ -72,6 +651,78 @@
   }
   .nc-chip:hover{background:#e2ecff}
 
+</style>
+
+<style>
+  /* FAQ styles replicated from index */
+  .faq-header { border: 1px solid #e6e8f0; border-radius: 16px; background: linear-gradient(90deg, var(--nc-primary), var(--nc-accent)); color:#fff; box-shadow: 0 14px 38px rgba(0,0,0,.06); max-width: 820px; margin: 8px auto; }
+  .faq-toolbar { display:flex; justify-content: space-between; align-items: center; gap: 30px; flex-wrap: wrap; padding: 20px 24px; }
+  .faq-header-left { display:flex; align-items:center; gap:16px; }
+  .faq-header-right { display:flex; align-items:center; gap:12px; margin-left:auto; }
+  .faq-title { margin:0; font-size: 22px; font-weight: 800; }
+  .back-btn { padding:8px 12px;border-radius:10px;border:1px solid #dbe6ff;background:#eef4ff;color:var(--nc-primary);font-weight:700;cursor:pointer }
+  .back-btn:hover{ background:#e2ecff }
+
+  .faq-search { display:flex; gap:10px; max-width:820px; margin:-8px auto 14px; position:relative }
+  .faq-search input { width:100%; padding:12px 16px; border-radius:999px; border:2px solid #e6e8f0; background:#fff; color:#111827 }
+  #questions-suggestions { position:absolute; top:100%; left:0; right:0; background:#fff; border:1px solid #dbe6ff; border-top:none; border-radius:0 0 12px 12px; max-height:300px; overflow-y:auto; z-index:1000; box-shadow: 0 14px 38px rgba(0,0,0,.06) }
+
+  .faq-pills { display:flex; gap:10px; justify-content:center; max-width:820px; margin:0 auto 10px }
+  .faq-actions { display:flex; gap:10px; justify-content:flex-end; max-width:820px; margin:0 auto 10px }
+  .pill { padding:8px 12px; border-radius:10px; border:1px solid #dbe6ff; background:#eef4ff; color:var(--nc-primary); font-weight:700; cursor:pointer }
+  .pill:hover{ background:#e2ecff }
+
+  .section { display:none; max-width:820px; margin:0 auto; background:#fff; padding:20px; border-radius:16px; border:1px solid #e6e8f0 }
+  .section.active { display:block }
+  .section h2 { color: var(--nc-primary); text-align:center; margin:6px 0 16px }
+
+  details { margin-bottom:12px; border:1px solid #dbe6ff; border-radius:10px; overflow:hidden; background:#eef4ff }
+  summary { padding:14px 44px 14px 14px; background:#eef4ff; cursor:pointer; font-weight:600; position:relative; color:#111827 }
+  summary::-webkit-details-marker { display:none }
+  summary::after { content:'▾'; position:absolute; right:16px; top:50%; transform:translateY(-50%); font-size:1.2em; transition: transform .25s }
+  details[open] > summary::after { transform: translateY(-50%) rotate(180deg) }
+  .answer { padding:0 14px; line-height:1.65; background:#fff; overflow:hidden; max-height:0; transition:max-height .3s ease-out, padding .3s ease-out; color:#111827 }
+  .answer ul { margin:8px 0 8px 20px }
+  .answer li { margin:4px 0 }
+  details[open] .answer { padding:14px; max-height:1200px; transition:max-height .45s ease-in, padding .45s ease-in }
+
+  /* Dark mode mapped to .nc-dark */
+  .nc.nc-dark .faq-header { background: linear-gradient(90deg, #1b3e8e, #146a43); color:#fff; border-color:#2a2e3f; box-shadow:none }
+  .nc.nc-dark .faq-search input { background:#0f1220; color:#f5f7ff; border-color:#2a3353 }
+  .nc.nc-dark #questions-suggestions { background:#1b2138; border-color:#2a3353 }
+  .nc.nc-dark .pill, .nc.nc-dark .back-btn { background:#1b2138; border-color:#2a3353; color:#ffffff }
+  .nc.nc-dark .pill:hover, .nc.nc-dark .back-btn:hover { background:#232b49 }
+  .nc.nc-dark .section { background:#14182a; border-color:#2a2e3f; color:#f5f7ff }
+  .nc.nc-dark details { border-color:#2a3353; background:#1b2138 }
+  .nc.nc-dark summary { background:#1b2138; color:#f5f7ff }
+  .nc.nc-dark .answer { background:#14182a; color:#f5f7ff }
+</style>
+
+<style>
+  /* Modo oscuro independiente para FAQ */
+  body.faq-dark-bg { background: #0f1220; }
+  #view-faq.faq-dark .faq-header { background: linear-gradient(90deg, #1b3e8e, #146a43); color:#fff; border-color:#2a2e3f; box-shadow:none }
+  #view-faq.faq-dark .faq-search input { background:#0f1220; color:#f5f7ff; border-color:#2a3353 }
+  #view-faq.faq-dark #questions-suggestions { background:#1b2138; border-color:#2a3353 }
+  #view-faq.faq-dark .pill, #view-faq.faq-dark .back-btn { background:#1b2138; border-color:#2a3353; color:#ffffff }
+  #view-faq.faq-dark .pill:hover, #view-faq.faq-dark .back-btn:hover { background:#232b49 }
+  #view-faq.faq-dark .section { background:#14182a; border-color:#2a2e3f; color:#f5f7ff }
+  #view-faq.faq-dark details { border-color:#2a3353; background:#1b2138 }
+  #view-faq.faq-dark summary { background:#1b2138; color:#f5f7ff }
+  #view-faq.faq-dark .answer { background:#14182a; color:#f5f7ff }
+</style>
+
+<style>
+  /* Lista de sugerencias del chat */
+  .nc-suggest-list{
+    position:absolute; left:16px; right:16px; bottom:100%; transform: translateY(-6px);
+    background:#fff; border:1px solid #dbe6ff; border-radius:10px; box-shadow:0 14px 38px rgba(0,0,0,.06);
+    max-height:260px; overflow:auto; z-index:20;
+  }
+  .nc-suggest-item{padding:10px 12px; cursor:pointer}
+  .nc-suggest-item:hover, .nc-suggest-item.active{background:#eef4ff}
+  .nc.nc-dark .nc-suggest-list{background:#1b2138; border-color:#2a3353}
+  .nc.nc-dark .nc-suggest-item:hover, .nc.nc-dark .nc-suggest-item.active{background:#232b49}
 </style>
 
 <style>
@@ -312,6 +963,20 @@ body.dark-mode {
   --cursor-color: #fff;
 }
 </style>
+<style>
+  /* Vistas exclusivas (pantallas) */
+  .view { display: none; }
+  .view.active { display: block; }
+  /* Animaciones básicas */
+  .fade-enter { opacity: 0; transform: translateY(10px); }
+  .fade-enter-active { opacity: 1; transform: translateY(0); transition: opacity .25s ease, transform .25s ease; }
+  .fade-exit { opacity: 1; transform: translateY(0); }
+  .fade-exit-active { opacity: 0; transform: translateY(-6px); transition: opacity .18s ease, transform .18s ease; }
+  /* Sugerencias buscador */
+  .suggestion-item { padding: 10px 14px; cursor: pointer; }
+  .suggestion-item:hover { background: #eef4ff; }
+  .highlight { background: #fff0b3; padding: 0 .1em; border-radius: 3px; }
+</style>
 <p>
   <script>
     (function() {
@@ -322,6 +987,170 @@ body.dark-mode {
         .replace(/[¿?¡!.,:;()"]/g, " ")
         .replace(/\s+/g, " ")
         .trim();
+
+      // Tema oscuro independiente del FAQ (no afecta al chat)
+      (function(){
+        const viewFaq = document.getElementById('view-faq');
+        const toFaqBtn = document.getElementById('toFaq');
+        const backBtn = document.getElementById('backToBot');
+        const themeBtnFaq = document.getElementById('themeToggleFaq');
+        const FAQ_THEME_KEY = 'faqTheme';
+
+        function setFaqBackground(active){
+          if(active) document.body.classList.add('faq-dark-bg'); else document.body.classList.remove('faq-dark-bg');
+        }
+        function updateFaqThemeButton(isDark){ if(themeBtnFaq) themeBtnFaq.textContent = isDark ? '☀️' : '🌙'; }
+        function applyFaqTheme(theme){
+          if(!viewFaq) return;
+          if(theme==='dark'){
+            viewFaq.classList.add('faq-dark');
+            updateFaqThemeButton(true);
+            localStorage.setItem(FAQ_THEME_KEY,'dark');
+            const isActive = viewFaq.classList.contains('active') && viewFaq.getAttribute('aria-hidden') !== 'true';
+            setFaqBackground(isActive);
+          } else {
+            viewFaq.classList.remove('faq-dark');
+            updateFaqThemeButton(false);
+            localStorage.setItem(FAQ_THEME_KEY,'light');
+            setFaqBackground(false);
+          }
+        }
+        // Inicializa según preferencia guardada o sistema
+        const savedFaqTheme = localStorage.getItem(FAQ_THEME_KEY) || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyFaqTheme(savedFaqTheme);
+
+        if(themeBtnFaq){
+          themeBtnFaq.addEventListener('click', ()=>{
+            const isDark = viewFaq.classList.contains('faq-dark');
+            applyFaqTheme(isDark ? 'light' : 'dark');
+          });
+        }
+        if(toFaqBtn){
+          toFaqBtn.addEventListener('click', ()=>{
+            const saved = localStorage.getItem(FAQ_THEME_KEY) || 'light';
+            if(saved === 'dark') setFaqBackground(true);
+          });
+        }
+        if(backBtn){
+          backBtn.addEventListener('click', ()=>{ setFaqBackground(false); });
+        }
+      })();
+
+      // Autocompletado del FAQ (similar al chat)
+      (function(){
+        const input = document.getElementById('searchInput');
+        const list = document.getElementById('questions-suggestions');
+        const root = document.getElementById('view-faq');
+        let activeIndex = -1;
+        let catalog = [];
+
+        function normalize(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim(); }
+
+        function buildCatalog(){
+          const items = [];
+          if(root){
+            root.querySelectorAll('details > summary').forEach(sum=>{
+              const text = sum.textContent.trim();
+              const sec = sum.closest('.section');
+              const sectionId = sec ? sec.id : null;
+              items.push({label:text, q:text, target: sum, sectionId: sectionId});
+            });
+          }
+          catalog = items;
+        }
+        buildCatalog();
+
+        function getActiveSection(){
+          const active = root?.querySelector('.section.active');
+          return active ? active.id : null;
+        }
+
+        function ensureVisible(el){
+          const sec = el.closest('.section');
+          if(sec && !sec.classList.contains('active')){
+            document.getElementById('estudiante')?.classList.remove('active');
+            document.getElementById('docente')?.classList.remove('active');
+            sec.classList.add('active');
+          }
+          const det = el.closest('details');
+          if(det) det.open = true;
+          el.scrollIntoView({behavior:'smooth', block:'center'});
+          el.focus({preventScroll:true});
+        }
+
+        function render(items){
+          if(!items.length){ list.style.display='none'; list.innerHTML=''; activeIndex=-1; return; }
+          list.innerHTML = items.map((it,i)=>`<div class="nc-suggest-item${i===0?' active':''}" data-q="${it.q.replace(/"/g,'&quot;')}">${it.label}</div>`).join('');
+          list.style.display='block';
+          activeIndex = 0;
+          Array.from(list.children).forEach((node, idx)=>{
+            node.addEventListener('mouseenter', ()=> setActive(idx));
+            node.addEventListener('mousedown', (ev)=>{ ev.preventDefault(); completeAndGo(idx); });
+          });
+        }
+        function setActive(idx){
+          const nodes = Array.from(list.children);
+          nodes.forEach(n=> n.classList.remove('active'));
+          if(idx>=0 && idx<nodes.length){ nodes[idx].classList.add('active'); activeIndex=idx; }
+        }
+        function completeAndGo(idx){
+          const nodes = Array.from(list.children);
+          if(!nodes.length) return;
+          const node = nodes[idx>=0?idx:0];
+          const q = node.getAttribute('data-q') || node.textContent.trim();
+          input.value = q;
+          list.style.display='none'; list.innerHTML=''; activeIndex=-1;
+          // localizar y abrir
+          const hit = catalog.find(it => it.q === q);
+          if(hit && hit.target){ ensureVisible(hit.target); }
+        }
+
+        input.addEventListener('input', ()=>{
+          const q = normalize(input.value);
+          if(!q){ list.style.display='none'; list.innerHTML=''; return; }
+          const activeSec = getActiveSection();
+          // Primero: items de la sección activa
+          const inActive = catalog.filter(it=> it.sectionId === activeSec && (normalize(it.label).includes(q) || normalize(it.q).includes(q)));
+          // Luego: items de otras secciones
+          const inOther = catalog.filter(it=> it.sectionId !== activeSec && (normalize(it.label).includes(q) || normalize(it.q).includes(q)));
+          const filtered = [...inActive, ...inOther].slice(0,10);
+          render(filtered);
+        });
+        input.addEventListener('keydown', (e)=>{
+          const visible = list.style.display==='block';
+          if(!visible){
+            if(e.key==='Enter'){
+              // si no hay lista, busca el mejor match (que incluya el texto) priorizando la sección activa
+              e.preventDefault();
+              const q = normalize(input.value);
+              if (!q) return;
+
+              const activeSec = getActiveSection();
+              // Busca el primer resultado que contenga el texto, priorizando la sección activa
+              let hit = catalog.find(it => it.sectionId === activeSec && normalize(it.label).includes(q));
+              
+              // Si no se encuentra en la sección activa, busca en todo el catálogo
+              if (!hit) {
+                hit = catalog.find(it => normalize(it.label).includes(q));
+              }
+
+              if(hit){
+                ensureVisible(hit.target);
+              }
+            }
+            return;
+          }
+          const nodes = Array.from(list.children);
+          if(e.key==='ArrowDown'){ e.preventDefault(); setActive(Math.min(nodes.length-1, activeIndex+1)); }
+          else if(e.key==='ArrowUp'){ e.preventDefault(); setActive(Math.max(0, activeIndex-1)); }
+          else if(e.key==='Enter'){ e.preventDefault(); completeAndGo(activeIndex); }
+          else if(e.key==='Escape'){ list.style.display='none'; list.innerHTML=''; activeIndex=-1; }
+        });
+        document.addEventListener('click', (e)=>{ if(!list.contains(e.target) && e.target!==input){ list.style.display='none'; }});
+
+        // Reconstruir catálogo al expandir/contraer por si cambian títulos
+        root?.addEventListener('toggle', (e)=>{ if(e.target && e.target.tagName==='DETAILS'){ buildCatalog(); }});
+      })();
 
       // URL de los videos
       const VIDEO_MATRICULACION = "https://www.youtube.com/watch?v=XXXXXXXX";
@@ -1702,11 +2531,166 @@ body.dark-mode {
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         applyTheme(savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light'));
 
-        // Toggle al hacer click
+        // Toggle al hacer click (chat)
         themeBtn.addEventListener('click', ()=>{
           const isDark = ncRoot.classList.contains('nc-dark');
           applyTheme(isDark ? 'light' : 'dark');
         });
+        // Toggle al hacer click (faq)
+        const themeBtnFaq = document.getElementById('themeToggleFaq');
+        if (themeBtnFaq) {
+          themeBtnFaq.addEventListener('click', ()=>{
+            const isDark = ncRoot.classList.contains('nc-dark');
+            applyTheme(isDark ? 'light' : 'dark');
+          });
+        }
+
+        // Navegación entre vistas (pantallas exclusivas)
+        const viewChat = document.getElementById('view-chat');
+        const viewFaq  = document.getElementById('view-faq');
+        const toFaqBtn = document.getElementById('toFaq');
+        const backBtn  = document.getElementById('backToBot');
+
+        function swapViews(hideEl, showEl, focusEl){
+          if (!hideEl || !showEl) return;
+          // salida
+          hideEl.classList.add('fade-exit');
+          requestAnimationFrame(()=>{
+            hideEl.classList.add('fade-exit-active');
+            setTimeout(()=>{
+              hideEl.classList.remove('fade-exit','fade-exit-active');
+              hideEl.classList.remove('active');
+              hideEl.setAttribute('aria-hidden','true');
+              // entrada
+              showEl.classList.add('active','fade-enter');
+              showEl.setAttribute('aria-hidden','false');
+              requestAnimationFrame(()=>{
+                showEl.classList.add('fade-enter-active');
+                setTimeout(()=>{
+                  showEl.classList.remove('fade-enter','fade-enter-active');
+                }, 260);
+              });
+              if (focusEl) setTimeout(()=> focusEl.focus(), 0);
+              window.scrollTo({ top: 0, behavior: 'instant' });
+            }, 200);
+          });
+        }
+
+        if (toFaqBtn) {
+          toFaqBtn.addEventListener('click', ()=>{
+            const faqTitle = document.getElementById('faqTitle');
+            swapViews(viewChat, viewFaq, faqTitle);
+          });
+        }
+        if (backBtn) {
+          backBtn.addEventListener('click', ()=>{
+            swapViews(viewFaq, viewChat, themeBtn);
+          });
+        }
+
+        // FAQ: lógica de secciones y expandir/contraer
+        const sectionStudent = document.getElementById('estudiante');
+        const sectionTeacher = document.getElementById('docente');
+        const expandAllBtn = document.getElementById('expandAllBtn');
+        const collapseAllBtn = document.getElementById('collapseAllBtn');
+
+        window.showSection = function(name){
+          if (name === 'estudiante'){
+            sectionStudent.classList.add('active');
+            sectionTeacher.classList.remove('active');
+            localStorage.setItem('activeRole','estudiante');
+          } else {
+            sectionTeacher.classList.add('active');
+            sectionStudent.classList.remove('active');
+            localStorage.setItem('activeRole','docente');
+          }
+          // desplaza a inicio de la sección
+          const el = name==='estudiante'?sectionStudent:sectionTeacher;
+          el.scrollIntoView({behavior:'smooth', block:'start'});
+        };
+
+        function toggleDetails(container, open){
+          const details = container.querySelectorAll('details');
+          details.forEach(d=>{ d.open = open; });
+        }
+        if (expandAllBtn){
+          expandAllBtn.addEventListener('click', ()=>{
+            const role = localStorage.getItem('activeRole')||'estudiante';
+            toggleDetails(role==='estudiante'?sectionStudent:sectionTeacher, true);
+          });
+        }
+        if (collapseAllBtn){
+          collapseAllBtn.addEventListener('click', ()=>{
+            const role = localStorage.getItem('activeRole')||'estudiante';
+            toggleDetails(role==='estudiante'?sectionStudent:sectionTeacher, false);
+          });
+        }
+
+        // FAQ: buscador con sugerencias y resaltado básico
+        const searchInput = document.getElementById('searchInput');
+        const suggestions = document.getElementById('questions-suggestions');
+
+        function normalize(s){
+          return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+        }
+        function highlight(text, query){
+          if (!query) return text;
+          const q = normalize(query);
+          const idx = normalize(text).indexOf(q);
+          if (idx === -1) return text;
+          return text.substring(0, idx) + '<span class="highlight">' + text.substring(idx, idx+query.length) + '</span>' + text.substring(idx+query.length);
+        }
+        function collectQuestions(){
+          const items = [];
+          [sectionStudent, sectionTeacher].forEach(sec=>{
+            if(!sec) return;
+            sec.querySelectorAll('details > summary').forEach(sum=>{
+              items.push({summary: sum, text: sum.textContent.trim(), section: sec});
+            });
+          });
+          return items;
+        }
+        const allQuestions = collectQuestions();
+
+        function renderSuggestions(list){
+          suggestions.innerHTML = '';
+          if (!list.length){ suggestions.style.display='none'; return; }
+          suggestions.style.display='block';
+          list.slice(0, 8).forEach(item=>{
+            const div = document.createElement('div');
+            div.className = 'suggestion-item';
+            div.innerHTML = highlight(item.text, searchInput.value);
+            div.addEventListener('click', ()=>{
+              // mostrar sección correspondiente
+              if (item.section === sectionStudent) showSection('estudiante'); else showSection('docente');
+              // abrir el details y enfocar
+              const details = item.summary.parentElement;
+              details.open = true;
+              details.scrollIntoView({behavior:'smooth', block:'start'});
+              searchInput.value = '';
+              suggestions.style.display='none';
+            });
+            suggestions.appendChild(div);
+          });
+        }
+
+        if (searchInput){
+          searchInput.addEventListener('input', ()=>{
+            const q = normalize(searchInput.value);
+            if (!q){ suggestions.style.display='none'; suggestions.innerHTML=''; return; }
+            const matches = allQuestions.filter(it=> normalize(it.text).includes(q));
+            renderSuggestions(matches);
+          });
+          document.addEventListener('click', (e)=>{
+            if (!suggestions.contains(e.target) && e.target !== searchInput){
+              suggestions.style.display='none';
+            }
+          });
+        }
+
+        // restaurar rol activo
+        const savedRole = localStorage.getItem('activeRole') || 'estudiante';
+        showSection(savedRole);
 
 
 
@@ -1820,6 +2804,95 @@ body.dark-mode {
             if(q) sendText(q);
           });
         });
+
+      // Autocompletado del chat
+      (function(){
+        const inputEl = document.getElementById('nc-input');
+        const list = document.getElementById('chat-suggestions');
+        let allChatHints = [];
+        let activeIndex = -1;
+
+        function normalize(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim(); }
+
+        // Construir catálogo: labels/q de SUGGESTIONS + títulos del FAQ
+        function collectFaqTitles(){
+          const titles = [];
+          const faqRoot = document.getElementById('view-faq');
+          if(!faqRoot) return titles;
+          faqRoot.querySelectorAll('details > summary').forEach(sum=>{
+            const text = sum.textContent.trim();
+            titles.push({label: text, q: text});
+          });
+          return titles;
+        }
+        function collectSuggestionPairs(){
+          const items = [];
+          try {
+            const keys = Object.keys(SUGGESTIONS||{});
+            keys.forEach(k=>{
+              (SUGGESTIONS[k]||[]).forEach(it=>{ if(it && it.q){ items.push({label: it.label||it.q, q: it.q}); } });
+            });
+          } catch(_){}
+          return items;
+        }
+        function buildCatalog(){
+          const a = collectSuggestionPairs();
+          const b = collectFaqTitles();
+          // deduplicar por q
+          const seen = new Set();
+          const merged = [];
+          [...a, ...b].forEach(it=>{
+            const key = it.q;
+            if(!seen.has(key)) { seen.add(key); merged.push(it); }
+          });
+          allChatHints = merged;
+        }
+        buildCatalog();
+
+        function render(items){
+          if(!items.length){ list.style.display='none'; list.innerHTML=''; activeIndex=-1; return; }
+          list.innerHTML = items.map((it,i)=>`<div class="nc-suggest-item${i===0?' active':''}" data-q="${it.q.replace(/"/g,'&quot;')}">${it.label}</div>`).join('');
+          list.style.display='block';
+          activeIndex = 0;
+          Array.from(list.children).forEach((node, idx)=>{
+            node.addEventListener('mouseenter', ()=> setActive(idx));
+            node.addEventListener('mousedown', (ev)=>{ ev.preventDefault(); completeAndSend(idx); });
+          });
+        }
+        function setActive(idx){
+          const nodes = Array.from(list.children);
+          nodes.forEach(n=> n.classList.remove('active'));
+          if(idx>=0 && idx<nodes.length){ nodes[idx].classList.add('active'); activeIndex=idx; }
+        }
+        function completeAndSend(idx){
+          const nodes = Array.from(list.children);
+          if(!nodes.length) return;
+          const node = nodes[idx>=0?idx:0];
+          const q = node.getAttribute('data-q') || node.textContent.trim();
+          list.style.display='none'; list.innerHTML=''; activeIndex=-1;
+          if(q){ inputEl.value = q; handleSend(); }
+        }
+
+        inputEl.addEventListener('input', ()=>{
+          const q = normalize(inputEl.value);
+          if(!q){ list.style.display='none'; list.innerHTML=''; return; }
+          const filtered = allChatHints.filter(it=> normalize(it.label).includes(q) || normalize(it.q).includes(q)).slice(0,8);
+          render(filtered);
+        });
+        inputEl.addEventListener('keydown', (e)=>{
+          const visible = list.style.display==='block';
+          if(!visible){
+            if(e.key==='Enter'){ e.preventDefault(); handleSend(); }
+            return;
+          }
+          const nodes = Array.from(list.children);
+          if(e.key==='ArrowDown'){ e.preventDefault(); setActive(Math.min(nodes.length-1, activeIndex+1)); }
+          else if(e.key==='ArrowUp'){ e.preventDefault(); setActive(Math.max(0, activeIndex-1)); }
+          else if(e.key==='Enter'){ e.preventDefault(); completeAndSend(activeIndex); }
+          else if(e.key==='Escape'){ list.style.display='none'; list.innerHTML=''; activeIndex=-1; }
+        });
+        document.addEventListener('click', (e)=>{ if(!list.contains(e.target) && e.target!==inputEl){ list.style.display='none'; }});
+      })();
 
       input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
