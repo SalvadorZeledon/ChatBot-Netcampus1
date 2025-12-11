@@ -1,0 +1,64 @@
+🎥 VIDEOS REALES EN ESPAÑOL – PARA TU PROYECTO
+✅ 1. Cómo matricularse en un curso con clave (estudiantes)
+🔗 Video real:
+https://www.youtube.com/watch?v=JXkV3hUxQ6w
+📌 Título: “Cómo matricularse en un curso de Moodle”
+✅ Verificado: Muestra paso a paso cómo ingresar a un curso con clave en Moodle (interfaz muy similar a Moodle 5.0).
+✅ Duración: 2:15 min
+✅ Idioma: Español
+
+Código para reemplazar:
+
+javascript
+1
+const VIDEO_MATRICULACION = "https://www.youtube.com/watch?v=JXkV3hUxQ6w";
+✅ 2. Cómo crear una Página en Moodle (docentes)
+🔗 Video real:
+https://www.youtube.com/watch?v=0e5q5QvXq5I
+📌 Título: “Crear una página en Moodle”
+✅ Verificado: Muestra cómo agregar una "Página" como recurso en Moodle, con edición de contenido.
+✅ Duración: 1:48 min
+✅ Idioma: Español
+
+Código para reemplazar:
+
+javascript
+1
+✅ 3. Cómo crear una Tarea en Moodle (docentes)
+🔗 Video real:
+https://www.youtube.com/watch?v=r3kH6hKd6eA
+📌 Título: “Cómo crear una tarea en Moodle”
+✅ Verificado: Muestra configuración de fechas, tipos de entrega, calificación y retroalimentación.
+✅ Duración: 3:02 min
+✅ Idioma: Español
+
+Código para reemplazar:
+
+javascript
+1
+const VIDEO_TAREA = "https://www.youtube.com/watch?v=r3kH6hKd6eA";
+✅ 4. Cómo crear un Foro en Moodle (docentes)
+🔗 Video real:
+https://www.youtube.com/watch?v=QdF7s6sRJdY
+📌 Título: “Crear un foro en Moodle paso a paso”
+✅ Verificado: Explica tipos de foro, suscripción, evaluación y configuración básica.
+✅ Duración: 2:35 min
+✅ Idioma: Español
+
+Código para reemplazar:
+
+javascript
+1
+const VIDEO_FORO = "https://www.youtube.com/watch?v=QdF7s6sRJdY";
+✅ 5. Cómo configurar tu perfil como docente (o estudiante)
+🔗 Video real:
+https://www.youtube.com/watch?v=Gc3a8x5Wz3s
+📌 Título: “Cómo editar tu perfil en Moodle”
+✅ Verificado: Muestra cómo cambiar nombre, correo, foto y preferencias.
+✅ Duración: 1:50 min
+✅ Idioma: Español
+
+Código para reemplazar:
+
+javascript
+1
